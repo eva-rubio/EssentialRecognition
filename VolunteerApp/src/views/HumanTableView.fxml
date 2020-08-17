@@ -9,25 +9,31 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.VolunteerTableViewController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.HumanTableViewController">
    <children>
       <VBox alignment="CENTER" layoutX="283.0" layoutY="78.0" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="List of Volunteers" />
-            <TableView fx:id="volunteerTable" onMouseClicked="#volunteerSelected" onSort="#volunteerSelected" prefHeight="200.0" prefWidth="200.0">
+            <Label text="List of every person related to the college">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font></Label>
+            <TableView fx:id="humanTable" onMouseClicked="#humanSelected" onSort="#humanSelected" prefHeight="288.0" prefWidth="760.0">
               <columns>
-                <TableColumn fx:id="volunterIDColumn" prefWidth="100.88892030715942" text="Volunteer ID" />
-                <TableColumn fx:id="firstNameColumn" prefWidth="200.0" text="First Name" />
-                  <TableColumn fx:id="lastNameColumn" prefWidth="200.0" text="Last Name" />
-                  <TableColumn fx:id="phoneColumn" prefWidth="110.66668701171875" text="Phone #" />
-                  <TableColumn fx:id="birthdayColumn" prefWidth="145.77777099609375" text="Birthday" />
+                <TableColumn fx:id="humanIDColumn" editable="false" prefWidth="100.88892030715942" text="Human ID" />
+                <TableColumn fx:id="firstNameColumn" prefWidth="137.99999237060547" text="First Name" />
+                  <TableColumn fx:id="lastNameColumn" prefWidth="222.66668701171875" text="Last Name" />
+                  <TableColumn fx:id="h_typeColumn" prefWidth="66.00003051757812" text="Type" />
+                  <TableColumn fx:id="phoneColumn" prefWidth="106.0" text="Phone #" />
+                  <TableColumn fx:id="dobColumn" prefWidth="201.33331298828125" text="Birthday" />
+                  <TableColumn fx:id="emailColumn" editable="false" prefWidth="75.0" text="Email" />
               </columns>
             </TableView>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
-                <Button mnemonicParsing="false" onAction="#newVolunteerButtonPushed" prefWidth="135.0" text="Create New Volunteer" />
-                  <Button fx:id="editVolunteerButton" mnemonicParsing="false" onAction="#editButtonPushed" prefWidth="135.0" text="Edit Volunteer" />
+                <Button mnemonicParsing="false" onAction="#newHumanButtonPushed" prefWidth="135.0" text="Add New to College" />
+                  <Button fx:id="editHumanButton" mnemonicParsing="false" onAction="#editButtonPushed" prefWidth="135.0" text="Edit Entry" />
                   <Button fx:id="logHoursButton" mnemonicParsing="false" onAction="#logHoursButtonPushed" prefWidth="135.0" text="Log Hours" />
               </items>
             </ToolBar>

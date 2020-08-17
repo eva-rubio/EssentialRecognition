@@ -39,71 +39,102 @@ import java.sql.SQLException;
  *
  */
 
-enum Gender {
-	FEMALE,
-	MALE,
-	THEY,
-	NA
-}
-
-enum PersonGroupType {
-	STUDENT,
-	INSTRUCTOR,
-	ADMIN
-}
+/*
+ * 
+ * enum PersonGroupType { STUDENT, INSTRUCTOR, ADMIN }
+ */
 public class Human {
-	
-	/**		PK - Primary Key 	*/
+
+	/**		PK - Primary Key 	
+	 * We cant access/get the humanID UNLESS it is directly coming from our database.
+	 *  */
 	private int humanID;
+
+	private int h_type;
 
 	private String firstName;
 	private String lastName;
 	private String phoneNumber;
-	private String password;
-	private LocalDate birthday;
-	
-	private File imageFile;
-	
-	private byte[] salt;
-	
-	private boolean admin;
-	
-	private Address address;
-	
-	private Gender gender;
-	private PersonGroupType humanCategory;
-	private String emailContact;
+	private LocalDate dob;
 
-	/**
-	 * Base constructor - sets default image. 
-	 * @param firstName
-	 * @param lastName
-	 * @param phoneNumber
-	 * @param birthday
-	 * @throws NoSuchAlgorithmException 
-	 */
-	public Human(String firstName, String lastName, String phoneNumber, LocalDate birthday, String password, boolean admin) throws NoSuchAlgorithmException {
+	private File imageFile;
+
+	private String password;	
+	private byte[] salt;
+
+	private String email;
+	private int gender;
+	//private boolean admin;
+	private int addressID;
+	private int mascotID;
+
+	private String defaultPass = "default";
+
+	//private PersonGroupType humanCategory;
+
+	public Human(int h_type, String firstName, String lastName, String phoneNumber, LocalDate dob, String email, int gender, int addressID, int mascotID) throws NoSuchAlgorithmException {
+		setH_type(h_type);
 		setFirstName(firstName);
 		setLastName(lastName);
 		setPhoneNumber(phoneNumber);
-		setBirthday(birthday);
+		setDob(dob);
 		setImageFile(new File("./src/images/defaultPerson.png"));
+
+		password = defaultPass;
 		salt = PasswordGenerator.getSalt();
 		this.password = PasswordGenerator.getSHA512Password(password, salt);
-		this.setAdmin(admin);
+
+		setEmail(email);
+		setGender(gender);
+		setAddressID(addressID);
+		setMascotID(mascotID);
+
+		//this.setAdmin(admin);
+	}
+	/**
+	 * (1) Base constructor - sets default image. 
+	 * @param firstName
+	 * @param lastName
+	 * @param phoneNumber
+	 * @param dob
+	 * @throws NoSuchAlgorithmException 
+	 */
+	public Human(int h_type, String firstName, String lastName, String phoneNumber, LocalDate dob, String password, String email, int gender, int addressID) throws NoSuchAlgorithmException {
+		setH_type(h_type);
+		setFirstName(firstName);
+		setLastName(lastName);
+		setPhoneNumber(phoneNumber);
+		setDob(dob);
+		setImageFile(new File("./src/images/defaultPerson.png"));
+
+		salt = PasswordGenerator.getSalt();
+		this.password = PasswordGenerator.getSHA512Password(password, salt);
+
+		setEmail(email);
+		setGender(gender);
+		setAddressID(addressID);
+		setMascotID(mascotID);
+
+		//this.setAdmin(admin);
 	}
 
-	public Human(String firstName, String lastName, String phoneNumber, LocalDate birthday, File imageFile, String password, boolean admin) throws IOException, NoSuchAlgorithmException {
-		this(firstName, lastName, phoneNumber, birthday, password, admin);
+
+	/**
+	 * (2) Largest Constructor.
+	 * Adds personalized photo to human. */
+	public Human(int h_type, String firstName, String lastName, String phoneNumber, LocalDate dob, File imageFile, String password, String email, int gender, int addressID) throws IOException, NoSuchAlgorithmException {
+		this(h_type, firstName, lastName, phoneNumber, dob, password, email, gender, addressID);
 		setImageFile(imageFile);
 		copyImageFile();
 	}
 
 
+	public String setDefaultPassword() {
+		return this.password = "default";
+	}
 	public static boolean isNameValid(String nameToCheck) {
-		
-		return Pattern.matches("[a-zA-Z]+", nameToCheck);
-		
+
+		return Pattern.matches("[a-zA-Z]+", nameToCheck);	
 	}
 
 	/**
@@ -148,7 +179,7 @@ public class Human {
 	 * X 	--	any number between 0-9
 	 * 
 	 * area code    city    house 
-     * NXX          -XXX    -XXXX
+	 * NXX          -XXX    -XXXX
 	 *              
 	 * @param phoneNumber the phoneNumber to set if valid.
 	 */
@@ -162,8 +193,8 @@ public class Human {
 		 * 
 		 * \\d{3}	Then 3 digits
 		 * */
-		
-		
+
+
 		if (phoneNumber.matches("[2-9]\\d{2}[-.]?\\d{3}[-.]\\d{4}"))
 			this.phoneNumber = phoneNumber;
 		else
@@ -172,22 +203,22 @@ public class Human {
 	/**
 	 * @return the birthday
 	 */
-	public LocalDate getBirthday() {
-		return birthday;
+	public LocalDate getDob() {
+		return dob;
 	}
 	/**
-	 * Validates that the volunteer is between the ages of 16 and 100.
+	 * Validates that the human is between the ages of 16 and 150.
 	 * i.e. That the person is within a certain age range.
 	 * 
 	 * @param birthday the birthday to set
 	 */
-	public void setBirthday(LocalDate birthday) {
-		int age = Period.between(birthday, LocalDate.now()).getYears();
+	public void setDob(LocalDate dob) {
+		int age = Period.between(dob, LocalDate.now()).getYears();
 
-		if (age >= 16 && age <= 100) {
-			this.birthday = birthday;
+		if (age >= 16 && age <= 150) {
+			this.dob = dob;
 		} else {
-			throw new IllegalArgumentException("Must be 16-100 years of age.");
+			throw new IllegalArgumentException("Must be 16-150 years of age.");
 		}
 	}
 	public String getPassword() {
@@ -198,15 +229,20 @@ public class Human {
 		return salt;
 	}
 
-	public boolean isAdmin() {
-		return admin;
+	public int getH_type() {
+		return h_type;
 	}
 
 	/**
 	 * @param admin the admin to set
 	 */
-	public void setAdmin(boolean admin) {
-		this.admin = admin;
+	public void setH_type(int h_type) {
+		this.h_type = h_type;
+		if(h_type == 1 || h_type==2 || h_type==3) {
+			this.h_type = h_type;
+		} else {
+			throw new IllegalArgumentException("Type of Person must be one of the following: 1 (Student), 2 (Faculty), 3 (Admin)");
+		}
 	}
 	/**
 	 * @return the imageFile
@@ -245,23 +281,74 @@ public class Human {
 		imageFile = new File(targetPath.toString());
 	}
 
+	public String getEmail() {
+		return email;
+	}
 	/**
-	 * @return
-	 */
-	public int getVolunteerID() {
+	 * Checks that the Email is valid. 
+	 * The following regex will match 99.99% of all email addresses in actual use today. 
+	 * 
+	 * 
+			\A[a-z0-9!#$%&'*+/=?^_‘{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_‘{|}~-]+)*@
+			(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\z
+
+https://www.regular-expressions.info/email.html */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public void setGender(int gender) {
+		if(gender == 1 || gender==2 || gender==3) {
+			this.gender = gender;
+		} else {
+			throw new IllegalArgumentException("Gender must be one of the following: 1 (Female), 2 (Male), 3 (Other)");
+		}
+	}
+	public void setAddressID(int addressID) {
+		if(addressID > 0) {
+			this.addressID = addressID;
+		} else {
+			throw new IllegalArgumentException("The Address ID must be > 0.");
+		}
+	}
+	public int getAddressID() {
+		return addressID;
+	}
+	public String getAddressIDString() {
+		return Integer.toString(addressID);
+	}
+
+	public int getGender() {
+		return gender;
+	}
+	public int getHumanID() {
 		return humanID;
 	}
 
 	/**
-	 * Set the Volunteer ID number. Making sure it is a positive value. 
-	 * @param volunteerID
+	 * Set the Human ID number. Making sure it is a positive value. 
+	 * @param humanID
 	 */
-	public void setVolunteerID(int volunteerID) {
-		if (volunteerID >= 0) {
-			this.humanID = volunteerID;
+	public void setHumanID(int humanID) {
+		if (humanID >= 0) {
+			this.humanID = humanID;
 		} else {
-			throw new IllegalArgumentException("VolunteerID must be >= 0");
+			throw new IllegalArgumentException("HumanID must be >= 0");
 		}
+	}
+	/**
+	 * @param mascotID
+	 */
+	private void setMascotID(int mascotID) {
+		if (mascotID >= 0) {
+			this.mascotID = mascotID;
+		} else {
+			throw new IllegalArgumentException("MascotID must be >= 0");
+		}
+
+	}
+	public int getMascotID() {
+		return mascotID;
 	}
 
 	/**
@@ -358,15 +445,15 @@ public class Human {
 	 * This method will return a formatted String with the persons' first name, last name and age
 	 */
 	public String toString() {
-		return String.format("%s %s is %d years old", firstName, lastName, Period.between(birthday, LocalDate.now()).getYears());
+		return String.format("%s %s is %d years old", firstName, lastName, Period.between(dob, LocalDate.now()).getYears());
 	}
 
 
 
 
 	/**
-	 * Writes the instance of the Volunteer into the database.
-	 * Lets a volunteer to write themselves to the database
+	 * Writes the instance of the Human into the database.
+	 * Lets a human person to write themselves to the database
 	 * @throws SQLException 
 	 * 
 	 * */
@@ -386,30 +473,35 @@ public class Human {
 			System.out.println("Connection established successfully!");
 
 			// (2) Create a String that holds the query with ? as user inputs.
-			String sql = "INSERT INTO volunteers (firstName, lastName, phoneNumber, birthday, imageFile, password, salt, admin)"
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO humanperson (h_type, firstName, lastName, phoneNumber, dob, imageFile, password, salt, email, gender, addressID)"
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 
 			// (3) Prepare the query (by sanitizing the inputs.)
 			preparedStatement = conn.prepareStatement(sql);
 
 			// (4) Convert the birthday into a SQL date
-			Date db = Date.valueOf(birthday);
+			Date db = Date.valueOf(dob);
 
 			//5. Bind the values to the parameters
-			preparedStatement.setString(1, firstName);
-			preparedStatement.setString(2, lastName);
-			preparedStatement.setString(3, phoneNumber);
-			preparedStatement.setDate(4, db);
-			preparedStatement.setString(5, imageFile.getName());
-			preparedStatement.setString(6, password);
-			preparedStatement.setBlob(7, new javax.sql.rowset.serial.SerialBlob(salt));
-			preparedStatement.setBoolean(8, admin);
+			preparedStatement.setInt(1, h_type);
+			preparedStatement.setString(2, firstName);
+			preparedStatement.setString(3, lastName);
+			preparedStatement.setString(4, phoneNumber);
+			preparedStatement.setDate(5, db);
+			preparedStatement.setString(6, imageFile.getName());	//returns the name of our file. 
+			preparedStatement.setString(7, password);
+			preparedStatement.setBlob(8, new javax.sql.rowset.serial.SerialBlob(salt));
+			preparedStatement.setString(9, email);
+			preparedStatement.setInt(10, gender);
+			preparedStatement.setInt(11, addressID);
+			//preparedStatement.setInt(11, mascotID);
+			//preparedStatement.setBoolean(8, admin);
 
 			preparedStatement.executeUpdate();
 
 
 
-			/*INSERT INTO volunteers(firstName, lastName, phoneNumber, birthday, imageFile) VALUES
+			/*INSERT INTO humanperson(firstName, lastName, phoneNumber, birthday, imageFile) VALUES
 ('Fred', 'Flinstone', '651-555-1234', '2002-01-02', 'some file');*/
 
 		} catch (Exception e) {
@@ -437,10 +529,10 @@ public class Human {
 	}
 
 	/**
-	 * Updates the Volunteer in our database.
+	 * Updates the Human in our database.
 	 * @throws SQLException 
 	 */
-	public void updateVolunteerInDB() throws SQLException {
+	public void updateHumanInDB() throws SQLException {
 
 
 		Connection conn = null;
@@ -451,24 +543,27 @@ public class Human {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/volunteer?serverTimezone=UTC", "root", "Sudafrica1$");
 
 			//2.  create a String that holds our SQL update command with ? for user inputs
-			String sql = "UPDATE volunteers SET firstName = ?, lastName = ?, "
-			+"phoneNumber=?, birthday = ?, imageFile = ?, admin = ? "
-					+ "WHERE volunteerID = ?";
+			String sql = "UPDATE humanperson SET h_type = ?, firstName = ?, lastName = ?, "
+					+"phoneNumber=?, dob = ?, imageFile = ?, email = ?, gender = ? , addressID = ?  "
+					+ "WHERE humanID = ?";
 
 			//3. prepare the query against SQL injection
 			preparedStatement = conn.prepareStatement(sql);
 
 			//4.  convert the birthday into a date object
-			Date bd = Date.valueOf(birthday);
+			Date bd = Date.valueOf(dob);
 
 			//5. bind the parameters
-			preparedStatement.setString(1, firstName);
-			preparedStatement.setString(2, lastName);
-			preparedStatement.setString(3, phoneNumber);
-			preparedStatement.setDate(4, bd);
-			preparedStatement.setString(5, imageFile.getName());
-			preparedStatement.setBoolean(6, admin);
-			preparedStatement.setInt(7, humanID);
+			preparedStatement.setInt(1, h_type);
+			preparedStatement.setString(2, firstName);
+			preparedStatement.setString(3, lastName);
+			preparedStatement.setString(4, phoneNumber);
+			preparedStatement.setDate(5, bd);
+			preparedStatement.setString(6, imageFile.getName());
+			preparedStatement.setString(7, email);
+			preparedStatement.setInt(8, gender);
+			preparedStatement.setInt(9, addressID);
+			preparedStatement.setInt(10, humanID);
 
 			//6. run the command on the SQL server
 			preparedStatement.executeUpdate();
@@ -495,7 +590,7 @@ public class Human {
 
 
 	/**
-	 * This method will record the hours worked for the volunteer.
+	 * This method will record the hours worked for the human.
 	 * @param dateWorked - must be in the current year and previous the current date
 	 * @param hoursWorked - must be less than 18 hours
 	 */
@@ -521,7 +616,7 @@ public class Human {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/volunteer?serverTimezone=UTC", "root", "Sudafrica1$");
 
 			//2. create a preparedStatement
-			String sql = "INSERT INTO hoursWorked (volunteerID, dateWorked, hoursworked) VALUES (?,?,?);";
+			String sql = "INSERT INTO hoursWorked (humanID, dateWorked, hoursworked) VALUES (?,?,?);";
 
 			//3.  prepare the query
 			ps = conn.prepareStatement(sql);
@@ -561,11 +656,11 @@ public class Human {
 	 * @throws SQLException 
 	 */
 	public void changePassword(String newPassword) throws NoSuchAlgorithmException, SQLException {
-		
+
 		salt = PasswordGenerator.getSalt();
 		// update the password to be the new one
 		password = PasswordGenerator.getSHA512Password(newPassword, salt);
-		
+
 		//store it in database
 		Connection conn = null;
 		PreparedStatement preparedStatement = null;
@@ -576,13 +671,13 @@ public class Human {
 
 			//2.  create a String that holds our SQL update command with ? for user inputs
 			// we need to add the salt
-			String sql = "UPDATE volunteers SET password = ?, salt = ?"
-					+ "WHERE volunteerID = ?";
+			String sql = "UPDATE humanperson SET password = ?, salt = ?"
+					+ "WHERE humanID = ?";
 
 			//3. prepare the query against SQL injection
 			preparedStatement = conn.prepareStatement(sql);
 
-			
+
 
 			//5. bind the parameters
 			preparedStatement.setString(1, password);
@@ -611,7 +706,31 @@ public class Human {
 			}
 		}
 
-		
+
+	}
+
+
+
+	/**
+	 * 
+	 * NRRXXX
+	 * N [1-6	Student, 	7-8	Faculty, 	9	Admin] 
+	 * RR 	are 2 random ints*/
+	public int generateUniqueMascotID() {
+		int uniqueMasID = 0;
+		if(this.h_type == 1) {
+			uniqueMasID += 200000;
+			uniqueMasID += this.humanID;
+		}
+		if(this.h_type == 2) {
+			uniqueMasID += 700000;
+			uniqueMasID += this.humanID;
+		}
+		if(this.h_type == 3) {
+			uniqueMasID += 900000;
+			uniqueMasID += this.humanID;
+		}
+		return uniqueMasID; 
 	}
 
 

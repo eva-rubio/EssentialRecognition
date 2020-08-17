@@ -5,6 +5,8 @@ package models;
 
 import java.time.LocalDate;
 
+import student.Student;
+
 /**
  * 
  * The student_presence table is used to store data about student presence for a specific lecture. 

@@ -24,7 +24,7 @@ import javafx.scene.control.TextArea;
  * @author Eva Rubio
  *
  */
-public class NewCourseViewController implements Initializable{
+public class NewSectionViewController implements Initializable{
 
 
 	@FXML Button resetFormButton;
@@ -68,6 +68,15 @@ public class NewCourseViewController implements Initializable{
 	@FXML Spinner<Integer> capacitySpinner;
 	@FXML Spinner<Integer> startMeetingTimeSpinner;
 	@FXML Spinner<Integer> endMeetingTimeSpinner;
+	@FXML TextField nameSectionTextField;
+	@FXML ChoiceBox sectFormatChoiceBox;
+	@FXML TextField facultyIDTextField;
+	@FXML ChoiceBox statusChoiceBox;
+	@FXML Button selectCatalogBtn;
+	@FXML Label courseIDLabel;
+	@FXML ChoiceBox buildingChoiceBox;
+	@FXML ChoiceBox roomNumChoiceBox;
+	@FXML Button createNewSectionButton;
 
 
 	@FXML

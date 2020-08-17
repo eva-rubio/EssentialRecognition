@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.AdminViewController">
+   <children>
+      <TabPane layoutX="125.0" layoutY="55.0" prefHeight="700.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Students">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox layoutX="269.0" prefHeight="671.3333333333334" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <VBox prefHeight="671.0" prefWidth="431.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="47.0" prefWidth="266.0" text="Add New Student" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="System Bold Italic" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label prefHeight="25.0" prefWidth="367.0" text="Biographical Data:">
+                                       <font>
+                                          <Font name="System Bold Italic" size="12.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="15.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox spacing="5.0">
+                                       <VBox.margin>
+                                          <Insets left="15.0" right="15.0" />
+                                       </VBox.margin>
+                                       <children>
+                                          <TextField fx:id="firstNameTextField" promptText="First Name">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                          <TextField fx:id="lastNameTextField" prefWidth="169.0" promptText="Last Name">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="31.0">
+                                       <VBox.margin>
+                                          <Insets left="15.0" right="15.0" />
+                                       </VBox.margin>
+                                       <children>
+                                          <Label prefHeight="31.0" prefWidth="115.0" text="Date of birth:">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <DatePicker fx:id="dobDatePicker" prefWidth="233.0" promptText="ex: 1995-09-27">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </DatePicker>
+                                       </children>
+                                    </HBox>
+                                    <TextField fx:id="emailTextField" promptText="Email">
+                                       <VBox.margin>
+                                          <Insets left="15.0" right="15.0" top="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="83.0">
+                                             <children>
+                                                <Label prefHeight="31.0" prefWidth="115.0" text="Gender:" />
+                                             </children>
+                                          </VBox>
+                                          <RadioButton fx:id="femaleRadioButton" mnemonicParsing="false" text="Female" />
+                                          <RadioButton fx:id="maleRadioButton" mnemonicParsing="false" text="Male" />
+                                          <RadioButton fx:id="otherRadioButton" mnemonicParsing="false" text="Other" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <Separator prefHeight="20.0" prefWidth="200.0" />
+                                    <Label prefHeight="25.0" prefWidth="367.0" text="Address Information:">
+                                       <font>
+                                          <Font name="System Bold Italic" size="12.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="15.0" />
+                                       </VBox.margin></Label>
+                                    <Label prefHeight="43.0" prefWidth="367.0" text="To add an address, either create a new entry or select a previously inserted one." wrapText="true">
+                                       <font>
+                                          <Font name="System Italic" size="11.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="15.0" right="15.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox alignment="CENTER" prefHeight="31.0" prefWidth="200.0" spacing="20.0">
+                                       <children>
+                                          <Button fx:id="createNewAddressButton" mnemonicParsing="false" text="Create New Address" />
+                                          <Label alignment="CENTER" contentDisplay="CENTER" text="or" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="System Italic" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="selectExistingAddressButton" mnemonicParsing="false" text="Select Existing" />
+                                       </children>
+                                    </HBox>
+                                    <Separator prefHeight="20.0" prefWidth="200.0" />
+                                    <Label prefHeight="25.0" prefWidth="367.0" text="Academic Details:">
+                                       <font>
+                                          <Font name="System Bold Italic" size="12.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="15.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="31.0">
+                                       <VBox.margin>
+                                          <Insets left="15.0" right="15.0" />
+                                       </VBox.margin>
+                                       <children>
+                                          <Label prefHeight="31.0" prefWidth="115.0" text="Student Major: " />
+                                          <ChoiceBox fx:id="majorIDChoiceBox" maxWidth="233.33" prefHeight="25.0" prefWidth="218.0" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label prefWidth="115.0" text="Faculty Advisor:" />
+                                          <VBox alignment="CENTER" prefHeight="100.0" prefWidth="215.0">
+                                             <children>
+                                                <TextField fx:id="facultyIDTextField" promptText="Faculty ID" />
+                                                <Label alignment="CENTER" contentDisplay="CENTER" text="or" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font name="System Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <ChoiceBox fx:id="facultyIDChoiceBox" prefWidth="215.0" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" right="15.0" />
+                                       </padding>
+                                    </HBox>
+                                    <Separator prefHeight="20.0" prefWidth="200.0" />
+                                    <VBox alignment="CENTER" spacing="5.0">
+                                       <children>
+                                          <HBox alignment="CENTER" prefHeight="31.0" prefWidth="361.0" spacing="15.0">
+                                             <children>
+                                                <Button fx:id="clearFormButton" mnemonicParsing="false" prefWidth="233.0" text="Clear Form" />
+                                                <Button fx:id="loadDataButton" mnemonicParsing="false" prefWidth="233.0" text="Load Data" />
+                                                <Button fx:id="addEntryButton" alignment="CENTER" mnemonicParsing="false" prefWidth="233.0" text="Add Student">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Button>
+                                             </children>
+                                             <padding>
+                                                <Insets left="15.0" right="15.0" />
+                                             </padding>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets left="30.0" right="10.0" />
+                                 </padding>
+                              </VBox>
+                              <TableView fx:id="studentsInfoTableView" prefHeight="671.0" prefWidth="631.0">
+                                <columns>
+                                  <TableColumn fx:id="sIDTableColumn" prefWidth="65.55557250976562" text="ID" />
+                                  <TableColumn fx:id="sFirstNameTableColumn" prefWidth="85.111083984375" text="First Name" />
+                                    <TableColumn fx:id="sLastNameTableColumn" prefWidth="75.0" text="Last Name" />
+                                    <TableColumn fx:id="sDobTableColumn" prefWidth="75.0" text="DOB" />
+                                    <TableColumn fx:id="sMajorTableColumn" prefWidth="113.55560302734375" text="Major" />
+                                    <TableColumn fx:id="sEmailTableColumn" minWidth="2.44439697265625" prefWidth="100.44439697265625" text="Email" />
+                                    <TableColumn fx:id="sGenderTableColumn" prefWidth="110.2222900390625" text="Gender" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Untitled Tab 2">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

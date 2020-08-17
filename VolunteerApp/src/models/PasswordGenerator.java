@@ -16,7 +16,7 @@ import java.security.SecureRandom;
  *
  */
 public class PasswordGenerator {
-	static int minPassLength = 6;
+	static int minPassLength = 5;
 
 	/**
 	 * SHA512 libraries we are using to encrypt the passwords. 
@@ -35,7 +35,7 @@ public class PasswordGenerator {
 			MessageDigest md = MessageDigest.getInstance("SHA-512");
 			md.update(salt);
 
-			//converts our pass into a string of bytes
+			//converts our password into a string of bytes
 			byte[] bytes = md.digest(passwordToEncrypt.getBytes());
 
 			//convert the string of bytes back into characters. 
@@ -74,7 +74,7 @@ public class PasswordGenerator {
 		if(minPassLength <= pass.length()) {
 			return true;
 		} else {
-			throw new IllegalArgumentException("Password must be at least 6 characters long.");
+			throw new IllegalArgumentException("Password must be at least 5 characters long.");
 		}
 	}
 

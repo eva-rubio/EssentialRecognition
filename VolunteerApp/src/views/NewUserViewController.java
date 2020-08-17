@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -21,12 +22,15 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Node;
-import models.Volunteer;
+import models.Human;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Button;
 
 /**
  * @author Eva Rubio
@@ -37,7 +41,6 @@ public class NewUserViewController implements Initializable, ControllerClass {
 	@FXML private TextField firstNameTextField;
 	@FXML private TextField lastNameTextField;
 	@FXML private TextField phoneTextField;
-	@FXML private DatePicker birthday;
 	@FXML private Label errMsgLabel;
 	@FXML private ImageView imageView;
 	@FXML private Label headerLabel;
@@ -46,16 +49,36 @@ public class NewUserViewController implements Initializable, ControllerClass {
 	@FXML private Label adminLabel;
 
 	/**
-	 * The actual File that will be loaded.
-	 */
+	 * The actual File that will be loaded. This instance variable gives me access to the actual file. */
 	private File imageFile;
 	private boolean imageFileChanged;
 
-	private Volunteer volunteer;
+	private Human human;
 
 	// for the passwords
 	@FXML private PasswordField pwField;
 	@FXML private PasswordField confirmPwField;
+	@FXML private DatePicker dobDatePicker;
+	@FXML private TextField emailTextField;
+	//These items are for the human type RadioButton
+	@FXML private RadioButton studentRadioButton;
+	@FXML private RadioButton facultyRadioButton;
+	@FXML private RadioButton adminRadioButton;
+	private ToggleGroup h_typeToggleGroup;
+
+
+	@FXML Button newAddressButton;
+	@FXML Button selectAddressButton;
+
+	//These for the Gender RadioButton
+	@FXML RadioButton femaleRadioButton;
+	@FXML RadioButton maleRadioButton;
+	@FXML RadioButton otherRadioButton;
+	private ToggleGroup genderToggleGroup;
+	@FXML Label genderSelectedLabel;
+	@FXML Label h_typeSelectedLabel;
+	@FXML TextField addressIDTextField;
+	@FXML Button saveHumanButton;
 
 
 
@@ -63,65 +86,76 @@ public class NewUserViewController implements Initializable, ControllerClass {
 
 
 	/**
-	 * This method will read from the scene and try to create a new instance of a Volunteer.
-	 * If a volunteer was successfully created, it is updated in the database.
+	 * Reads/gets the values in the fields from the Scene, then,
+	 *  attempts/tries to create a new instance of a Human.
+	 * If a person was successfully created, it is updated (or inserted if new) in the database.
 	 * 
-	 * @param event The event triggered when the button was clicked.
+	 * @param event The event that was triggered when the button was clicked.
 	 */
-	public void saveVolunteerButtonPushed(ActionEvent event) {
+	public void saveHumanButtonPushed(ActionEvent event) {
 
-		//if we have a valid password, OR the volunteer is NOT null (already exists)
-		// if its new user, volunteer == null. and it will force them to validate the password.
-		if (validPassword() || volunteer != null) {
+		// parse() returns type int or Integer
+		int addressIDValue = Integer.parseInt(addressIDTextField.getText());
+
+		//if we have a valid password, OR the human is NOT null (already exists)
+		// if its new user, human == null. and it will force them to validate the password.
+		if (validPassword() || human != null) {
 
 			try {
 
-				// Edit/update an EXISTING volunteer's information
-				if (volunteer != null) {
+				// Edit/update an EXISTING human's information
+				if (human != null) {
 
-					updateVolunteer();
+					updateHuman();
 
-					volunteer.updateVolunteerInDB();
-					
+					human.updateHumanInDB();
+
 					// Update the password IF it was changed.
 					// if the passwordField is NOT empty
 					if(!pwField.getText().isEmpty()) {
 						//check if it is a Valid password
 						if(validPassword()) {
 							// change it to whatever is currently in the passField. 
-							volunteer.changePassword(pwField.getText());
+							human.changePassword(pwField.getText());
 						}
-						
+
 					}
 
 				} else {
 
-					//create a Volunteer with a CUSTOM image.
+					// Human(int h_type, String firstName, String lastName, String phoneNumber, LocalDate dob, File imageFile, String password, String email, int gender, int addressID, int mascotID) throws IOException, NoSuchAlgorithmException {
+					// this(h_type, firstName, lastName, phoneNumber, dob, password, email, gender, addressID, mascotID);
+
+					//create a Human with a CUSTOM image. 
 					if (imageFileChanged) {
 
-						volunteer = new Volunteer(firstNameTextField.getText(),lastNameTextField.getText(),
-								phoneTextField.getText(), birthday.getValue(), imageFile, pwField.getText(),
-								adminCheckBox.isSelected());
+
+						human = new Human(h_typeRadioButtonChanged(), firstNameTextField.getText(), lastNameTextField.getText(),
+								phoneTextField.getText(), dobDatePicker.getValue(), imageFile, pwField.getText(), emailTextField.getText(),
+								genderRadioButtonChanged(), addressIDValue);
 
 					} else {
 
 						//the imageFile has NOT been changed. USE THE DEFAULT IMG FOR AVATAR.
-						volunteer = new Volunteer(firstNameTextField.getText(),lastNameTextField.getText(),
-								phoneTextField.getText(), birthday.getValue(), pwField.getText(),
-								adminCheckBox.isSelected());
+
+						// (1) public Human( int h_type, String firstName, String lastName, String phoneNumber, LocalDate dob, String password, String email, int gender, int addressID)
+
+						human = new Human(h_typeRadioButtonChanged(), firstNameTextField.getText(), lastNameTextField.getText(),
+								phoneTextField.getText(), dobDatePicker.getValue(), pwField.getText(), emailTextField.getText(),
+								genderRadioButtonChanged(), addressIDValue);
 					}
 
 
-					//do NOT show errors if creating Volunteer was successful
+					//do NOT show errors if creating Human was successful
 					errMsgLabel.setText("");    
-					volunteer.insertIntoDB(); 
+					human.insertIntoDB(); 
 
 				}
 
 
 				// if NO error occurred  ->  Change the Scene to the TableView. 
 				SceneChanger sc = new SceneChanger();
-				sc.changeScenes(event, "VolunteerTableView.fxml", "All Volunteers");
+				sc.changeScenes(event, "HumanTableView.fxml", "All Humans");
 
 
 
@@ -137,7 +171,7 @@ public class NewUserViewController implements Initializable, ControllerClass {
 	}
 
 	/**
-	 * Validates that the passwords match.
+	 * Validates that the passwords match and that it is of appropriate length.
 	 * 
 	 */
 	public boolean validPassword() {
@@ -157,26 +191,33 @@ public class NewUserViewController implements Initializable, ControllerClass {
 	}
 
 	/**
-	 * Reads from the GUI fields and updates all the Volunteer object's fields with the new values .
+	 * Reads from the GUI fields and updates all the Human object's fields with the new values .
 	 * Changes everything except for their ID. 
-	 * Takes the Volunteer that is pre-loaded, and reads the data in the textFields
+	 * Takes the Human that is pre-loaded, and reads the data in the textFields
 	 * 
 	 */
-	public void updateVolunteer() throws IOException {
+	public void updateHuman() throws IOException {
 
-		volunteer.setFirstName(firstNameTextField.getText());
-		volunteer.setLastName(lastNameTextField.getText());
-		volunteer.setPhoneNumber(phoneTextField.getText());
-		volunteer.setBirthday(birthday.getValue());
-		volunteer.setImageFile(imageFile);
+		// parse() returns type int or Integer
+		int addressIDValue = Integer.parseInt(addressIDTextField.getText());
 		
-		volunteer.setAdmin(adminCheckBox.isSelected());
+
+		human.setFirstName(firstNameTextField.getText());
+		human.setLastName(lastNameTextField.getText());
+		human.setPhoneNumber(phoneTextField.getText());
+		human.setDob(dobDatePicker.getValue());
+		human.setEmail(emailTextField.getText());
+		human.setImageFile(imageFile);
+		human.setGender(genderRadioButtonChanged());
+		human.setAddressID(addressIDValue);
+
+		
 
 
 		/* if the imageFileChanged is TRUE, lets copy it and put it in the correct folder.
 		 * we do not do it unless it has changed.*/
 		if(imageFileChanged) {
-			volunteer.copyImageFile();
+			human.copyImageFile();
 		}
 	}
 
@@ -187,7 +228,7 @@ public class NewUserViewController implements Initializable, ControllerClass {
 	 */
 	public void chooseImageButtonPushed(ActionEvent event) {
 
-		//get the Stage to open a new window/Stage
+		//get the Stage to open a new window/Stage    --> this gives us access to the window.
 		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 
 		//Instantiate a FileChooser object
@@ -197,8 +238,8 @@ public class NewUserViewController implements Initializable, ControllerClass {
 		/*
 		 * To make sure the user only selects the correct image format we
 		 *  filter to only select be allowed to select .jpg and .png formats*/
-		FileChooser.ExtensionFilter jpgFilter = new FileChooser.ExtensionFilter("Image File (*.jpg)", "*.jpg");
-		FileChooser.ExtensionFilter pngFilter = new FileChooser.ExtensionFilter("Image File (*.png)", "*.png");
+		FileChooser.ExtensionFilter jpgFilter = new FileChooser.ExtensionFilter("image File (*.jpg)", "*.jpg");
+		FileChooser.ExtensionFilter pngFilter = new FileChooser.ExtensionFilter("image File (*.png)", "*.png");
 		// the list is initially empty so we add them all to it. 
 		fileChooser.getExtensionFilters().addAll(jpgFilter, pngFilter);
 
@@ -212,13 +253,13 @@ public class NewUserViewController implements Initializable, ControllerClass {
 
 		fileChooser.setInitialDirectory(userDirectory);
 
-		//open the file dialog window
+		//open the file dialog window - giving the user the ability to select their desired one. 
 		File tmpImageFile = fileChooser.showOpenDialog(stage);
 
 		if (tmpImageFile != null) {
 			imageFile = tmpImageFile;
 
-			//update the ImageView with the new image
+			//update the ImageView with the new user-selected image
 			if (imageFile.isFile()) {
 
 				try {
@@ -239,10 +280,10 @@ public class NewUserViewController implements Initializable, ControllerClass {
 			}
 		}
 	}
-	
+
 
 	/**
-	 * This method will change back to the TableView of volunteers without adding a user. 
+	 * This method will change back to the TableView of humans WITHOUT adding a user. 
 	 * 
 	 * ALL data in the form will be LOST.
 	 */
@@ -250,14 +291,20 @@ public class NewUserViewController implements Initializable, ControllerClass {
 
 		SceneChanger sc = new SceneChanger();
 
-		//check if it is an admin user and go to the table view
-
-		if (SceneChanger.getLoggedInUser().isAdmin()) {
-			sc.changeScenes(event,"VolunteerTableView.fxml", "All Volunteers"); 
+		//check if it is an admin user and if so, go to the table view
+		
+//TODO : REMOVE TRUEEEE
+		
+		
+		if ((SceneChanger.getLoggedInUser().getH_type() == 3)|| true) {
+			sc.changeScenes(event,"HumanTableView.fxml", "All Humans"); 
 
 		} else { 
+			
+			//TODO: Go to my individual student schedule/timetable. 
+			
 			LogHoursViewController controller = new LogHoursViewController(); 
-			sc.changeScenes(event, "LogHoursView.fxml", "Log Hours", volunteer, controller); 
+			sc.changeScenes(event, "LogHoursView.fxml", "Log Hours", human, controller); 
 		}
 	}
 	/**
@@ -266,9 +313,9 @@ public class NewUserViewController implements Initializable, ControllerClass {
 	 * @throws IOException 
 	 */
 	public void logoutButttonPushed(ActionEvent event) throws IOException {
-		
+
 		SceneChanger.setLoggedInUser(null);
-		
+
 		SceneChanger sc = new SceneChanger();
 		sc.changeScenes(event, "LoginView.fxml", "Login");	
 	}
@@ -276,25 +323,82 @@ public class NewUserViewController implements Initializable, ControllerClass {
 
 
 
+	/**
+	 * This method will update the radioButtonLabel when ever a different
+	 * radio button is pushed
+	 */
+	@FXML
+	public int genderRadioButtonChanged() {
+		if (this.genderToggleGroup.getSelectedToggle().equals(this.femaleRadioButton)) {
+			genderSelectedLabel.setText("Female.");
+			return 1;
+		}        
+		if (this.genderToggleGroup.getSelectedToggle().equals(this.maleRadioButton)) {
+			genderSelectedLabel.setText("Male.");
+			return 2;
+		}
+		if (this.genderToggleGroup.getSelectedToggle().equals(this.otherRadioButton)) {
+			genderSelectedLabel.setText("Other.");
+			return 3;
+		}
+		return 1;  
+	}
+	/**
+	 * This method will update the radioButtonLabel when ever a different radio button is pushed.
+	 */
+	@FXML
+	public int h_typeRadioButtonChanged() {
+		if (this.h_typeToggleGroup.getSelectedToggle().equals(this.studentRadioButton)) {
+			h_typeSelectedLabel.setText("Student.");
+			return 1;
+		}        
+		if (this.h_typeToggleGroup.getSelectedToggle().equals(this.facultyRadioButton)) {
+			h_typeSelectedLabel.setText("Faculty.");
+			return 2;
+		}
+		if (this.h_typeToggleGroup.getSelectedToggle().equals(this.adminRadioButton)) {
+			h_typeSelectedLabel.setText("Admin.");
+			return 3;
+		}
+		return 1;  
+	}
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		//assume our Volunteer is atleast 18 years old. 
-		birthday.setValue(LocalDate.now().minusYears(18));
-		
-		// if the current user is NOT an Admin, do NOT display the adminCheckBox.
-		if(!SceneChanger.getLoggedInUser().isAdmin()) {
-			adminCheckBox.setVisible(false);
-			adminLabel.setVisible(false);
+		// configuring the RadioButtons
+		genderSelectedLabel.setText("");
+		genderToggleGroup = new ToggleGroup();
+		this.femaleRadioButton.setToggleGroup(genderToggleGroup);
+		this.maleRadioButton.setToggleGroup(genderToggleGroup);
+		this.otherRadioButton.setToggleGroup(genderToggleGroup);
 
-		}
+		h_typeSelectedLabel.setText("");
+		h_typeToggleGroup = new ToggleGroup();
+		this.studentRadioButton.setToggleGroup(h_typeToggleGroup);
+		this.facultyRadioButton.setToggleGroup(h_typeToggleGroup);
+		this.adminRadioButton.setToggleGroup(h_typeToggleGroup);
+
+
+
+
+		//assume our Human is at least 16 years old. 
+		dobDatePicker.setValue(LocalDate.now().minusYears(16));
+
+		// if the current user is NOT an Admin, do NOT display the adminCheckBox.
+		/*
+		 * if(!(SceneChanger.getLoggedInUser().getH_type() == 3)) {
+		 * adminCheckBox.setVisible(false); adminLabel.setVisible(false);
+		 * 
+		 * }
+		 */
 
 		//initially the image has not changed, use the default
 		imageFileChanged = false; 
 
 		errMsgLabel.setText("");
 
-		//load the default image for the user avatar
+		//'try to' load the default image for the user avatar
 		try {
 			// the 'imageFile' points to the default img. (to access the file)
 			imageFile = new File("./src/images/defaultPerson.png");
@@ -314,33 +418,54 @@ public class NewUserViewController implements Initializable, ControllerClass {
 	}
 
 	/**
-	 * update the view with a Volunteer object preloaded for an edit.
-	 * Pre-loads all of the fields in the table with our user information. 
-	 * @param volunteer the volunteer to edit. 
+	 * (Pre)Load the current view with the Human object that was passed in for editting it.
+	 * Pre-loads all of the fields in the table with our user/human information. 
+	 * 
+	 * Required for scene changes and preloading data.
+	 * @param Human the Human to edit. 
 	 */
 	@Override
-	public void preloadData(Volunteer volunteer) {
-		this.volunteer = volunteer;
+	public void preloadData(Human human) {
+		//the human that we passed in:
+		this.human = human;
 		// to update the view.
-		this.firstNameTextField.setText(volunteer.getFirstName());
-		this.lastNameTextField.setText(volunteer.getLastName());
-		this.birthday.setValue(volunteer.getBirthday());
-		this.phoneTextField.setText(volunteer.getPhoneNumber());
-		this.headerLabel.setText("Edit Volunteer");
+		this.firstNameTextField.setText(human.getFirstName());
+		this.lastNameTextField.setText(human.getLastName());
+		this.dobDatePicker.setValue(human.getDob());
+		this.phoneTextField.setText(human.getPhoneNumber());
+		this.emailTextField.setText(human.getEmail());
+		this.addressIDTextField.setText(human.getAddressIDString());
 		
-		if(volunteer.isAdmin()) {
-			adminCheckBox.setSelected(true);
-		}
+		if(human.getH_type()==1) {
+			this.studentRadioButton.setSelected(true);}
+		if(human.getH_type()==2) {
+			this.facultyRadioButton.setSelected(true);}
+		if(human.getH_type()==3) {
+			this.adminRadioButton.setSelected(true);}
+		if(human.getGender()==1) {
+			this.femaleRadioButton.setSelected(true);}
+		if(human.getGender()==2) {
+			this.maleRadioButton.setSelected(true);	}
+		if(human.getGender()==3) {
+			this.otherRadioButton.setSelected(true);}
+		
+		this.headerLabel.setText("Edit Person Details");
+		this.saveHumanButton.setText("Save");
 
-		//load the image 
+//		if(human.isAdmin()) {
+//			adminCheckBox.setSelected(true);
+//		}
+
+		//load the image (that was previously selected by the person in question).
+		//we obtain the image file from the human object passed in. 
 		try {
 
-			String imgLocation = ".\\src\\images\\" + volunteer.getImageFile().getName();
+			String imgLocation = ".\\src\\images\\" + human.getImageFile().getName();
 
 			imageFile = new File(imgLocation);
-
+			// ImageIO - throws IOException as it is possible that the image is not at the location given, permissions issue... 
 			BufferedImage bufferedImage = ImageIO.read(imageFile);
-
+			//create an Image and then set the imageView to contain it inside.
 			Image img = SwingFXUtils.toFXImage(bufferedImage, null);
 			imageView.setImage(img);
 
@@ -352,5 +477,6 @@ public class NewUserViewController implements Initializable, ControllerClass {
 		}
 
 	}
+
 
 }

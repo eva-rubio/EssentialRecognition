@@ -15,20 +15,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.LoginViewController">
+<AnchorPane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.LoginViewController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="304.0" layoutY="81.0" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="TOP_CENTER" prefHeight="137.0" prefWidth="460.0">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="103.0" fitWidth="111.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/endicott-logo.png" />
                      </image>
                   </ImageView>
                   <Label alignment="CENTER" prefHeight="130.0" prefWidth="281.0" text="Login to ER" textAlignment="CENTER">
                      <font>
-                        <Font name="System Bold Italic" size="36.0" />
+                        <Font name="System Bold Italic" size="28.0" />
                      </font>
                   </Label>
                </children>
@@ -43,9 +43,9 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Endicott ID or email" />
+                  <Label text="Endicott ID" />
                   <Label text="Password" GridPane.rowIndex="1" />
-                  <TextField fx:id="volunteerIDTextField" GridPane.columnIndex="1" />
+                  <TextField fx:id="humIDTextField" GridPane.columnIndex="1" />
                   <PasswordField fx:id="pwField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>

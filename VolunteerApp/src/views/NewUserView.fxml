@@ -2,10 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,27 +19,28 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.NewUserViewController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="159.0" layoutY="89.0" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="headerLabel" text="Create New User">
+            <Label fx:id="headerLabel" text="Register New User">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font></Label>
-            <HBox alignment="CENTER" prefHeight="274.0" prefWidth="760.0" spacing="20.0">
+            <HBox alignment="CENTER" prefHeight="435.0" prefWidth="760.0" spacing="20.0">
                <children>
-                  <GridPane prefHeight="205.0" prefWidth="390.0">
+                  <GridPane alignment="CENTER_LEFT" prefHeight="335.0" prefWidth="354.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.33331298828125" minWidth="10.0" prefWidth="134.99996948242188" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="255.00003051757812" minWidth="10.0" prefWidth="255.00003051757812" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.33331298828125" minWidth="10.0" prefWidth="109.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="235.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="35.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="35.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="35.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="35.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="35.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="35.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="45.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="90.0" minHeight="0.0" prefHeight="61.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <Label text="First Name" />
@@ -46,29 +48,100 @@
                         <Label text="Phone #" GridPane.rowIndex="2" />
                         <Label text="Birthday" GridPane.rowIndex="3" />
                         <TextField fx:id="firstNameTextField" GridPane.columnIndex="1" />
-                        <TextField fx:id="lastNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="lastNameTextField" prefHeight="25.0" prefWidth="88.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextField fx:id="phoneTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <DatePicker fx:id="birthday" prefHeight="25.0" prefWidth="260.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label text="Password" GridPane.rowIndex="4" />
-                        <Label text="Confirm Password" GridPane.rowIndex="5" />
-                        <PasswordField fx:id="pwField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <PasswordField fx:id="confirmPwField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <Label fx:id="adminLabel" text="Administrator" GridPane.rowIndex="6" />
-                        <CheckBox fx:id="adminCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <DatePicker fx:id="dobDatePicker" prefHeight="25.0" prefWidth="260.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Gender" GridPane.rowIndex="4" />
+                        <Label text="Type" GridPane.rowIndex="5" />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                           <children>
+                              <RadioButton fx:id="studentRadioButton" mnemonicParsing="false" text="Student" />
+                              <RadioButton fx:id="facultyRadioButton" mnemonicParsing="false" text="Faculty" />
+                              <RadioButton fx:id="adminRadioButton" mnemonicParsing="false" text="Admin" />
+                           </children>
+                        </HBox>
+                        <Label text="Email" GridPane.rowIndex="6" />
+                        <Label text="Address" GridPane.rowIndex="7" />
+                        <TextField fx:id="emailTextField" promptText="ex: albert@einstein.org" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <VBox GridPane.columnIndex="1" GridPane.rowIndex="7">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                                 <children>
+                                    <Button fx:id="newAddressButton" maxWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Create Address" />
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="15.0" text="or" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="System Italic" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Button fx:id="selectAddressButton" maxWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Select Exisiting" />
+                                 </children>
+                              </HBox>
+                              <TextField fx:id="addressIDTextField" promptText="Address ID" />
+                           </children>
+                        </VBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <children>
+                              <RadioButton fx:id="femaleRadioButton" mnemonicParsing="false" text="Female" />
+                              <RadioButton fx:id="maleRadioButton" mnemonicParsing="false" text="Male" />
+                              <RadioButton fx:id="otherRadioButton" mnemonicParsing="false" text="Other" />
+                           </children>
+                        </HBox>
                      </children>
                   </GridPane>
-                  <VBox alignment="TOP_CENTER" spacing="20.0">
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <VBox alignment="TOP_CENTER" prefHeight="405.0" prefWidth="296.0" spacing="20.0">
                      <children>
-                        <ImageView fx:id="imageView" fitHeight="168.0" fitWidth="257.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="imageView" fitHeight="138.0" fitWidth="189.0" pickOnBounds="true" preserveRatio="true" />
                         <Button mnemonicParsing="false" onAction="#chooseImageButtonPushed" text="Change Image" />
+                        <Separator prefWidth="200.0" />
+                        <VBox alignment="CENTER" prefHeight="114.0" prefWidth="296.0" spacing="10.0">
+                           <children>
+                              <Label text="Account Settings:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="passDescriptLabel" text="If left unmodified, it will automatically be set to: &quot;default&quot;.">
+                                 <font>
+                                    <Font name="System Italic" size="11.0" />
+                                 </font>
+                              </Label>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox prefHeight="50.0" prefWidth="141.0">
+                                       <children>
+                                          <Label text="Password:" />
+                                          <Label text="Re-enter password: " />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="50.0" prefWidth="161.0">
+                                       <children>
+                                          <PasswordField fx:id="pwField" />
+                                          <PasswordField fx:id="confirmPwField" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <Separator prefWidth="296.0" />
+                           </children>
+                        </VBox>
                      </children>
                   </VBox>
                </children>
             </HBox>
-            <Label fx:id="errMsgLabel" text="Label" />
-            <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+            <HBox alignment="CENTER" spacing="70.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#saveVolunteerButtonPushed" text="Save" />
+                  <Label fx:id="errMsgLabel" text="Error Message Here (if any)" />
+                  <Label fx:id="genderSelectedLabel" text="Gender Selected" />
+                  <Label fx:id="h_typeSelectedLabel" text="h_type" />
+               </children>
+            </HBox>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="42.0" prefWidth="760.0" spacing="20.0">
+               <children>
+                  <Button fx:id="saveHumanButton" mnemonicParsing="false" onAction="#saveHumanButtonPushed" text="Register">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
                   <Button mnemonicParsing="false" onAction="#cancelButtonPushed" text="Cancel" />
                   <Button mnemonicParsing="false" onAction="#logoutButttonPushed" text="Logout" />
                </children>

@@ -7,7 +7,12 @@ import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.util.HashMap;
 
+
+enum job{
+	
+}
 /**
  * 
  * Registrars Office 
@@ -25,7 +30,7 @@ import java.time.LocalDate;
  * @author Eva Rubio
  *
  */
-public class Admin extends Volunteer{
+public class Admin extends Volunteer {
 	
 	
 	
@@ -37,4 +42,6 @@ public class Admin extends Volunteer{
 		// TODO Auto-generated constructor stub
 	}
 
+
+    
 }

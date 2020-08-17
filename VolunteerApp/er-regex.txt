@@ -1,0 +1,5 @@
+
+
+	[^0-9\r\n] -- matches any character that is not a digit or a line break
+	
+	[0-9]{5}([0-9]{4})?	-- Seven or nine digits is, 7 digits optionally followed by two more digits.

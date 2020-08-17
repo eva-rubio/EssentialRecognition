@@ -61,8 +61,8 @@ public class Volunteer {
 
 	private Address address;
 
-	private Gender gender;
-	private PersonGroupType humanCategory;
+	//private Gender gender;
+	//private PersonGroupType humanCategory;
 	private String emailContact;
 
 	/**

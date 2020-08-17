@@ -13,7 +13,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -24,14 +23,15 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import models.Human;
 import models.PasswordGenerator;
+import models.Volunteer;
 
 /**
  * @author Eva Rubio
  *
  */
-public class LoginViewController implements Initializable  {
+public class ZoldLoginViewController implements Initializable  {
 
-	@FXML private TextField humIDTextField;
+	@FXML private TextField humanIDTextField;
 	@FXML private PasswordField pwField;
 	@FXML private Label errMsgLabel;
 
@@ -39,13 +39,13 @@ public class LoginViewController implements Initializable  {
 
 	/**
 	 * When a person logs in, we get their password and salt.
-	 * we create a temp human
+	 * we create a temp volunteer
 	 * @param event
 	 * @throws IOException
 	 * @throws NoSuchAlgorithmException
 	 */
 	public void loginButtonPushed(ActionEvent event) throws IOException, NoSuchAlgorithmException {
-		//query the database with the humanID provided, get the salt
+		//query the database with the volunteerID provided, get the salt
 		//and encrypted password stored in the database
 		
 		Connection conn = null;
@@ -53,7 +53,7 @@ public class LoginViewController implements Initializable  {
 		ResultSet resultSet = null;
 
 		//convert to int , same as the type in the database. 
-		int userInput = Integer.parseInt(humIDTextField.getText());
+		int humanNum = Integer.parseInt(humanIDTextField.getText());
 
 		try{
 			//1.  connect to the DB
@@ -61,14 +61,14 @@ public class LoginViewController implements Initializable  {
 
 			//2.  create a query string with ? used instead of the values given by the user
 			String sql = "SELECT * FROM humanperson WHERE humanID = ?";
-			// este estaba antes -- String sql = "SELECT * FROM humanperson WHERE humanID = ?";
-			//String sql = "SELECT password, salt, admin FROM humanperson WHERE humanID = ?";
+			// este estaba antes -- String sql = "SELECT * FROM volunteers WHERE volunteerID = ?";
+			//String sql = "SELECT password, salt, admin FROM volunteers WHERE volunteerID = ?";
 
 			//3.  prepare the statement
 			ps = conn.prepareStatement(sql);
 
-			//4.  bind the humanID to the ?
-			ps.setInt(1, userInput);
+			//4.  bind the volunteerID to the ?
+			ps.setInt(1, humanNum);
 
 			//5. execute the query
 			resultSet = ps.executeQuery();
@@ -78,12 +78,11 @@ public class LoginViewController implements Initializable  {
 
 			byte[] salt = null;
 
-			
+			boolean admin = false;
+
+			Volunteer volunteer = null;
 			Human human = null;
 
-			int userType = 1;
-			
-			
 			while (resultSet.next()) {
 
 
@@ -96,28 +95,21 @@ public class LoginViewController implements Initializable  {
 				int blobLength = (int) blob.length();
 				salt = blob.getBytes(1, blobLength);
 
-				userType = resultSet.getInt("h_type");
-				
 
-				// Create an instance of the Human class from the database:
-				//getting all of this Human's information from the database
-				// public Human(int h_type, String firstName, String lastName, String phoneNumber, LocalDate dob, 
-				//String password, String email, int gender, int addressID, int mascotID)
-				human = new Human(resultSet.getInt("h_type"),
-						resultSet.getString("firstName"),
+				admin = resultSet.getBoolean("admin");
+
+				// Create an instance of the Volunteer class from the database:
+				//getting all of this Volunteer's information from the database
+				// not needed if it
+				volunteer = new Volunteer(resultSet.getString("firstName"),
 						resultSet.getString("lastName"),
 						resultSet.getString("phoneNumber"),
-						resultSet.getDate("dob").toLocalDate(),
+						resultSet.getDate("birthday").toLocalDate(),
 						resultSet.getString("password"),
-						resultSet.getString("email"),
-                        resultSet.getInt("gender"),
-                        resultSet.getInt("addressID"));
+                        resultSet.getBoolean("admin"));
 				
-				human.setHumanID(resultSet.getInt("humanID"));
-				human.setImageFile(new File(resultSet.getString("imageFile")));  
-				
-				//human = new Human();
-				
+				volunteer.setVolunteerID(resultSet.getInt("VolunteerID"));
+				volunteer.setImageFile(new File(resultSet.getString("imageFile")));  
 			}
 
 			//convert the password given by the user into an encrypted password
@@ -126,30 +118,26 @@ public class LoginViewController implements Initializable  {
 
 			SceneChanger sc = new SceneChanger();
 			
-			if (userPW.equals(dbPassword)) {
-                SceneChanger.setLoggedInUser(human);
+			if (userPW.equals(dbPassword))
+                SceneChanger.setLoggedInUser(volunteer);
 
-			//TODO: BORRAR NO VA AQUI.
-			sc.changeScenes(event, "HumanTableView.fxml", "All People");
 			// if the passwords match (if the password is valid) AND it is an 'admin' user 
-			//		change the Scene to the HumanTableView.
-/*
-			if (userPW.equals(dbPassword) && (userType == 2 || userType == 3)) {
-				//SceneChanger.setLoggedInUser(human);
-				sc.changeScenes(event, "HumanTableView.fxml", "All People");
+			//		change the Scene to the VolunteerTableView.
+
+			if (userPW.equals(dbPassword) && admin) {
+				//SceneChanger.setLoggedInUser(volunteer);
+				sc.changeScenes(event, "VolunteerTableView.fxml", "All Volunteers");
 
 				// if it is a valid user but NOT an administrative user
 				// 		change the Scene to the LogHoursView.
 			} else if (userPW.equals(dbPassword)) {
 				// create an instance of the controller class for log hours view (LogHoursViewController.java):
 				LogHoursViewController controllerClass = new LogHoursViewController();
-				//we need to pass in the Human info
-				sc.changeScenes(event, "LogHoursView.fxml", "Log Hours", human, controllerClass);
-*/
+				//we need to pass in the Volunteer info
+				sc.changeScenes(event, "LogHoursView.fxml", "Log Hours", volunteer, controllerClass);
+
 			} else {
-				errMsgLabel.setText("The ID and password do not match. Please try again.");
-				humIDTextField.clear();
-				pwField.clear();
+				errMsgLabel.setText("The volunteer ID and password do not match.");
 			}
 
 		}

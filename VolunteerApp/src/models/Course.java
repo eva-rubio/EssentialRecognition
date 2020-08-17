@@ -36,37 +36,41 @@ import java.time.LocalDate;
 public class Course {
 
 
-
-
-
-
-
-	public Course( String course_code, String title, LocalDate startDate, LocalDate endDate,
-			String instruct_name, String status, String semest, int curr_capacity, int max_capacity) {
-		super();
-		this.course_code = course_code;
-		this.title = title;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.instruct_name = instruct_name;
-		this.status = status;
-		this.semest = semest;
-		this.curr_capacity = curr_capacity;
-		this.max_capacity = max_capacity;
-	}
-
 	private int c_ID;
 	private String course_code;
 	private String title;
 	private LocalDate startDate;
 	private LocalDate endDate;
-	private String instruct_name;
+	private String instructor_name;
 	private String status;
-	private String semest;
+	private String semester;
 	private int curr_capacity;
 	private int max_capacity;
+	
+	
+	private boolean coreRequirement;
+	private int creditHours;
+	private int id_school;
+	
+	
 
+	public Course( String course_code, String title, LocalDate startDate, LocalDate endDate,
+			String instructor_name, String status, String semester, int curr_capacity, int max_capacity, boolean coreRequirement, int creditHours, int id_school) {
+		this.course_code = course_code;
+		this.title = title;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.instructor_name = instructor_name;
+		this.status = status;
+		this.semester = semester;
+		this.curr_capacity = curr_capacity;
+		this.max_capacity = max_capacity;
+		this.coreRequirement = coreRequirement;
+		this.creditHours = creditHours;
+		this.id_school = id_school;
+	}
 
+	
 
 
 	/**		PK - Primary Key 	*/
@@ -136,15 +140,15 @@ public class Course {
 	/**
 	 * @return the instruct_name
 	 */
-	public String getInstruct_name() {
-		return instruct_name;
+	public String getInstructor_name() {
+		return instructor_name;
 	}
 
 	/**
 	 * @param instruct_name the instruct_name to set
 	 */
-	public void setInstruct_name(String instruct_name) {
-		this.instruct_name = instruct_name;
+	public void setInstructor_name(String instruct_name) {
+		this.instructor_name = instruct_name;
 	}
 
 	/**
@@ -164,15 +168,15 @@ public class Course {
 	/**
 	 * @return the semest
 	 */
-	public String getSemest() {
-		return semest;
+	public String getSemester() {
+		return semester;
 	}
 
 	/**
 	 * @param semest the semest to set
 	 */
-	public void setSemest(String semest) {
-		this.semest = semest;
+	public void setSemester(String semest) {
+		this.semester = semest;
 	}
 
 	/**
@@ -205,14 +209,14 @@ public class Course {
 	/**
 	 * @return the courseTitle
 	 */
-	public String getCourseTitle() {
+	public String getTitle() {
 		return title;
 	}
 
 	/**
 	 * @param courseTitle the courseTitle to set
 	 */
-	public void setCourseTitle(String title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
@@ -247,6 +251,34 @@ public class Course {
 		this.endDate = endDate;
 	}
 
+	public boolean isCoreRequirement() {
+		return coreRequirement;
+	}
+
+	public void setCoreRequirement(boolean coreRequirement) {
+		this.coreRequirement = coreRequirement;
+	}
+
+	public int getCreditHours() {
+		return creditHours;
+	}
+
+	public void setCreditHours(int creditHours) {
+		this.creditHours = creditHours;
+	}
+
+	public int getId_school() {
+		return id_school;
+	}
+
+
+
+
+	public void setId_school(int id_school) {
+		this.id_school = id_school;
+	}
+
+
 
 
 	/**
@@ -264,8 +296,8 @@ public class Course {
 			System.out.println("Connection to courses established successfully!");
 
 			// (2) Create a String that holds the query with ? as user inputs.
-			String sql = "INSERT INTO courses (course_code, title, startDate, endDate, instructor_name, status, semester, curr_capacity, max_capacity)"
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO courses (course_code, title, startDate, endDate, instructor_name, status, semester, curr_capacity, max_capacity, coreRequirement, creditHours)"
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 			// (3) Prepare the query (by sanitizing the inputs.)
 			preparedStatement = conn.prepareStatement(sql);
@@ -279,11 +311,13 @@ public class Course {
 			preparedStatement.setString(2, title);
 			preparedStatement.setDate(3, strt);
 			preparedStatement.setDate(4, endd);
-			preparedStatement.setString(5, instruct_name);
+			preparedStatement.setString(5, instructor_name);
 			preparedStatement.setString(6, status);
-			preparedStatement.setString(7, semest);
+			preparedStatement.setString(7, semester);
 			preparedStatement.setInt(8, curr_capacity);
 			preparedStatement.setInt(9, max_capacity);
+			preparedStatement.setBoolean(10, coreRequirement);
+			preparedStatement.setInt(11, creditHours);
 
 			preparedStatement.executeUpdate();
 
@@ -318,3 +352,10 @@ public class Course {
 
 
 }
+
+/* REFERENCES
+ * 
+ * https://stackoverflow.com/questions/47181969/javafx-tableview-propertyvaluefactory-error
+ * 
+ * 
+ * */
