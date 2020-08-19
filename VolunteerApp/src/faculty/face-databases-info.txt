@@ -1,0 +1,10 @@
+
+
+AT&T database is one of the popular face database which is used to calculate the accuracy of face recognition system. 
+The original AT&T face images are in "PGM" file format. 
+The "PGM" files cannot open in some programming languages directly. 
+Eg. Java cannot open PGM files and cannot convert it to BufferedImage object. 
+So, the database files are converted into PNG files. 
+This database is also known as: Olivetti - AT&T - ORL.
+
+http://terminalcoders.blogspot.com/2017/03/at-face-database-in-png.html

@@ -62,8 +62,9 @@ public class Main extends Application {
 		//(2)Parent root = FXMLLoader.load(getClass().getResource("DetailsCourseView.fxml"));  //CatalogListViewController
 
 		//(4)Parent root = FXMLLoader.load(getClass().getResource("HumanTableView.fxml"));
+		///VolunteerApp/src/views/adminarea/NewSectionView.fxml
 		
-		Parent root = FXMLLoader.load(getClass().getResource("LoginView.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("adminarea/NewSectionView.fxml"));
 		Scene scene = new Scene(root);
 
 //		primaryStage.setTitle("Register New to College Form.");

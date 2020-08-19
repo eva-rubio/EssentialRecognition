@@ -530,6 +530,7 @@ https://www.regular-expressions.info/email.html */
 
 	/**
 	 * Updates the Human in our database.
+	 * Allows us to modify entries in the database.
 	 * @throws SQLException 
 	 */
 	public void updateHumanInDB() throws SQLException {
@@ -565,7 +566,7 @@ https://www.regular-expressions.info/email.html */
 			preparedStatement.setInt(9, addressID);
 			preparedStatement.setInt(10, humanID);
 
-			//6. run the command on the SQL server
+			//6. Execute the UPDATE command on the SQL server.
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 

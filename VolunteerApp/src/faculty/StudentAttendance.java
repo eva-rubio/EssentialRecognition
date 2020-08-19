@@ -1,10 +1,12 @@
 /**
  * 
  */
-package models;
+package faculty;
 
 import java.time.LocalDate;
 
+import models.Classroom;
+import models.Course;
 import student.Student;
 
 /**

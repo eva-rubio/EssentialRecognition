@@ -33,6 +33,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Button;
 
 /**
+ * Admin view. Adds, updates the db.
  * @author Eva Rubio
  *
  */
@@ -102,11 +103,11 @@ public class NewUserViewController implements Initializable, ControllerClass {
 		if (validPassword() || human != null) {
 
 			try {
-
-				// Edit/update an EXISTING human's information
+				// Edit/update an EXISTING human record information.
 				if (human != null) {
 
-					updateHuman();
+					//before updating the human in the db directly, we must first update the Human object.
+					updateHumanObj();
 
 					human.updateHumanInDB();
 
@@ -196,7 +197,7 @@ public class NewUserViewController implements Initializable, ControllerClass {
 	 * Takes the Human that is pre-loaded, and reads the data in the textFields
 	 * 
 	 */
-	public void updateHuman() throws IOException {
+	public void updateHumanObj() throws IOException {
 
 		// parse() returns type int or Integer
 		int addressIDValue = Integer.parseInt(addressIDTextField.getText());
@@ -211,11 +212,8 @@ public class NewUserViewController implements Initializable, ControllerClass {
 		human.setGender(genderRadioButtonChanged());
 		human.setAddressID(addressIDValue);
 
-		
-
-
 		/* if the imageFileChanged is TRUE, lets copy it and put it in the correct folder.
-		 * we do not do it unless it has changed.*/
+		 * we do NOT do it unless it has CHANGED.*/
 		if(imageFileChanged) {
 			human.copyImageFile();
 		}
@@ -224,11 +222,11 @@ public class NewUserViewController implements Initializable, ControllerClass {
 	/**
 	 * When this button is pushed, a FileChooser object is launched to allow the user
 	 * to browse for a new image file.  When that is complete, it will update the 
-	 * view with a new image
+	 * view with a new image.
 	 */
 	public void chooseImageButtonPushed(ActionEvent event) {
 
-		//get the Stage to open a new window/Stage    --> this gives us access to the window.
+		//get the Stage to open a new window/Stage    --> this gives us access to the actual window.
 		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 
 		//Instantiate a FileChooser object

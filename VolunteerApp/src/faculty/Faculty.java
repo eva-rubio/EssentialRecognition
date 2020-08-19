@@ -1,24 +1,22 @@
 /**
  * 
  */
-package models;
+package faculty;
 
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 
+import models.Human;
+
 /**
  * @author Eva Rubio
  *
  */
-
-enum Rank {
-	INSTRUCTOR,
-	ASSISTANTPROFESSOR,
-	ASSOCIATEPROFESSOR,
-	PROFESSOR
-}
+/*
+ * enum Rank { INSTRUCTOR, ASSISTANTPROFESSOR, ASSOCIATEPROFESSOR, PROFESSOR }
+ */
 
 public class Faculty extends Human {
 	
