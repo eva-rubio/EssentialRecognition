@@ -7,8 +7,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX13"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/OpenCV420"/>
 	<classpathentry kind="lib" path="C:/Program Files/MySQL/mysql-connector-java-8.0.20/mysql-connector-java-8.0.20/mysql-connector-java-8.0.20.jar"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/OpenCV440"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

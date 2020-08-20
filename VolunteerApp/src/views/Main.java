@@ -33,7 +33,8 @@ public class Main extends Application {
 	 */
 	public static void main(String[] args) throws NoSuchAlgorithmException, SQLException {
 
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		//System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		System.loadLibrary("libopencv_java440");
 
 		/*
 		 * 	'launch()' method - inside of Application class. 
@@ -64,7 +65,9 @@ public class Main extends Application {
 		//(4)Parent root = FXMLLoader.load(getClass().getResource("HumanTableView.fxml"));
 		///VolunteerApp/src/views/adminarea/NewSectionView.fxml
 		
-		Parent root = FXMLLoader.load(getClass().getResource("adminarea/NewSectionView.fxml"));
+//		Parent root = FXMLLoader.load(getClass().getResource("adminarea/NewSectionView.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("AttendanceTrackerView.fxml"));
+
 		Scene scene = new Scene(root);
 
 //		primaryStage.setTitle("Register New to College Form.");
