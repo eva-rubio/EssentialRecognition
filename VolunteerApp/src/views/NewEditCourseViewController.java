@@ -8,11 +8,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.Initializable;
-import models.Course;
+import models.Catalog;
 import models.Human;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.CheckBox;
@@ -21,6 +24,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 
 /**
  * @author Eva Rubio
@@ -30,30 +34,20 @@ public class NewEditCourseViewController implements Initializable, ControllerCla
 
 	@FXML TextField codeTextField;
 	@FXML TextField titleTextField;
-	@FXML TextField instructorTextField;
-	@FXML TextField semesterTextField;
-	@FXML DatePicker startDateDatePicker;
-	@FXML DatePicker endDateDatePicker;
 	@FXML CheckBox coreReqCheckBox;
 
-	@FXML RadioButton zeroCreditsRadioButton;
-	@FXML RadioButton oneCreditsRadioButton;
-	@FXML RadioButton twoCreditsRadioButton;
-	@FXML RadioButton threeCreditsRadioButton;
-	@FXML RadioButton fourCreditsRadioButton;
+	@FXML RadioButton oneCredHrsRadioButton;
+	@FXML RadioButton twoCredHrsRadioButton;
+	@FXML RadioButton threeCredHrsRadioButton;
+	@FXML RadioButton fourCredHrsRadioButton;
 	private ToggleGroup creditHoursToggleGroup;
 
-	@FXML Spinner<Integer> currCapacitySpinner;
-	@FXML Spinner<Integer> maxCapacitySpinner;
-	@FXML ChoiceBox<String> statusChoiceBox;
 	@FXML Button saveCourseButton;
 	@FXML Button cancelButton;
 
-	private Course course;
+	private Catalog catalog;
 	@FXML Spinner<Integer> idSchoolSpinner;
-
-
-
+	@FXML TextArea descriptionTextArea;
 	/**
 	 * This method will read from the scene and try to create a new instance of a Human.
 	 * If a Human was successfully created, it is updated in the database.
@@ -64,20 +58,28 @@ public class NewEditCourseViewController implements Initializable, ControllerCla
 
 		try {
 			// if we are updating
-			if(course != null) {
+			if(catalog != null) {
 
 			} else {
-				course = new Course(codeTextField.getText(), titleTextField.getText(), startDateDatePicker.getValue(), endDateDatePicker.getValue(),
-						instructorTextField.getText(), statusChoiceBox.getValue().toString(), semesterTextField.getText(), (int)currCapacitySpinner.getValue(), (int)maxCapacitySpinner.getValue(), coreReqCheckBox.isSelected(), radioButtonChanged(),
-						(int)idSchoolSpinner.getValue());
+				catalog = new Catalog(codeTextField.getText(), titleTextField.getText(), 
+						credHrsRadioButtonChanged(), coreReqCheckBox.isSelected(),
+						descriptionTextArea.getText(), idSchoolSpinner.getValue());
+				
+				System.out.println(codeTextField.getText());
+				System.out.println(titleTextField.getText());
+				System.out.println(credHrsRadioButtonChanged());
+				System.out.println(coreReqCheckBox.isSelected());
+				System.out.println(descriptionTextArea.getText());
+				System.out.println(idSchoolSpinner.getValue());
+				
 			}
 
-			course.insertCourseIntoDB();
+			catalog.insertCatalogIntoDB();
 
 			// if NO error occurred  ->  Change the Scene to the TableView. 
-			SceneChanger sc = new SceneChanger();
-			sc.changeScenes(event, "DetailsCourseView.fxml", "Course Catalog");
-			
+			//SceneChanger sc = new SceneChanger();
+			//sc.changeScenes(event, "CatalogListView.fxml", "Course Catalog");
+
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
 			System.out.println(e);
@@ -97,7 +99,7 @@ public class NewEditCourseViewController implements Initializable, ControllerCla
 	public void cancelButtonPushed(ActionEvent event) throws IOException {
 
 		SceneChanger sc = new SceneChanger();
-		sc.changeScenes(event, "DetailsCourseView.fxml", "Course Catalog");
+		sc.changeScenes(event, "CatalogListView.fxml", "Course Catalog");
 	}
 
 
@@ -112,27 +114,25 @@ public class NewEditCourseViewController implements Initializable, ControllerCla
 	 * radio button is pushed
 	 */
 	@FXML
-	public int radioButtonChanged() {
-		if (this.creditHoursToggleGroup.getSelectedToggle().equals(this.zeroCreditsRadioButton)) {
-			return 0;
-		}        
-		if (this.creditHoursToggleGroup.getSelectedToggle().equals(this.oneCreditsRadioButton)) {
+	public int credHrsRadioButtonChanged() {
+	    
+		if (this.creditHoursToggleGroup.getSelectedToggle().equals(this.oneCredHrsRadioButton)) {
 			return 1;
 		}
 
-		if (this.creditHoursToggleGroup.getSelectedToggle().equals(this.twoCreditsRadioButton)) {
+		if (this.creditHoursToggleGroup.getSelectedToggle().equals(this.twoCredHrsRadioButton)) {
 			return 2;
 		}
 
-		if (this.creditHoursToggleGroup.getSelectedToggle().equals(this.threeCreditsRadioButton)) {
+		if (this.creditHoursToggleGroup.getSelectedToggle().equals(this.threeCredHrsRadioButton)) {
 			return 3;
 		}
 
-		if (this.creditHoursToggleGroup.getSelectedToggle().equals(this.fourCreditsRadioButton)) {
+		if (this.creditHoursToggleGroup.getSelectedToggle().equals(this.fourCredHrsRadioButton)) {
 			return 4;
 		}
 
-		return 0;
+		return 1;
 	}
 
 
@@ -146,23 +146,18 @@ public class NewEditCourseViewController implements Initializable, ControllerCla
 		//These items are for configuring the RadioButtons
 
 		creditHoursToggleGroup = new ToggleGroup();
-		this.zeroCreditsRadioButton.setToggleGroup(creditHoursToggleGroup);
-		this.oneCreditsRadioButton.setToggleGroup(creditHoursToggleGroup);
-		this.twoCreditsRadioButton.setToggleGroup(creditHoursToggleGroup);
-		this.threeCreditsRadioButton.setToggleGroup(creditHoursToggleGroup);
-		this.fourCreditsRadioButton.setToggleGroup(creditHoursToggleGroup);
+		this.oneCredHrsRadioButton.setToggleGroup(creditHoursToggleGroup);
+		this.twoCredHrsRadioButton.setToggleGroup(creditHoursToggleGroup);
+		this.threeCredHrsRadioButton.setToggleGroup(creditHoursToggleGroup);
+		this.fourCredHrsRadioButton.setToggleGroup(creditHoursToggleGroup);
 
-		// 8 is the regular work day
-		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,100,0);
-		SpinnerValueFactory<Integer> valueFactMax = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,100,50);
+
+
+
 		SpinnerValueFactory<Integer> idSchoolValueFact = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,9,1);
 
-		currCapacitySpinner.setValueFactory(valueFactory);
-		maxCapacitySpinner.setValueFactory(valueFactMax);
 		idSchoolSpinner.setValueFactory(idSchoolValueFact);
-		
-		statusChoiceBox.getItems().addAll("Open", "Closed", "Reopened");
-		statusChoiceBox.setValue("Open");
+
 
 	}
 
@@ -170,7 +165,8 @@ public class NewEditCourseViewController implements Initializable, ControllerCla
 	@Override
 	public void preloadData(Human human) {
 		// TODO Auto-generated method stub
-		
+
+		human = null;
 	}
 
 }

@@ -6,7 +6,7 @@ package faculty;
 import java.time.LocalDate;
 
 import models.Classroom;
-import models.Course;
+import models.Catalog;
 import student.Student;
 
 /**
@@ -20,7 +20,7 @@ import student.Student;
 public class StudentAttendance {
 	
 	private Student theStudent;
-	private Course theCourse;
+	private Catalog theCourse;
 	private Faculty theInstructor;
 	private Classroom theClassroom;
 	

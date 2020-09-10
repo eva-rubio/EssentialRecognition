@@ -21,11 +21,11 @@ enum job{
  Student Forms:
  Admin's job to complete them and make them happen.
  
-		Add/Drop Course 
+		Add/Drop Catalog 
 		Change of Address/Name
 		Change of Major/Concentration
 		Change of Enrollment Status
-		Course Withdrawal
+		Catalog Withdrawal
 
  * @author Eva Rubio
  *

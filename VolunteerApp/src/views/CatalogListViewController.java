@@ -23,7 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import models.Course;
+import models.Catalog;
 import models.Volunteer;
 import javafx.fxml.FXML;
 import javafx.application.Platform;
@@ -45,25 +45,25 @@ import javafx.scene.control.CheckBox;
  */
 public class CatalogListViewController implements Initializable{
 
-	@FXML private TableView<Course> courseListTable;
+	@FXML private TableView<Catalog> courseListTable;
 	
-	@FXML private TableColumn<Course, String> courseCodeTableColumn;
+	@FXML private TableColumn<Catalog, String> courseCodeTableColumn;
 
-	@FXML private TableColumn<Course, String> titleTableColumn;
+	@FXML private TableColumn<Catalog, String> titleTableColumn;
 
-	@FXML private TableColumn<Course, String> facultyTableColumn;
+	@FXML private TableColumn<Catalog, String> facultyTableColumn;
 
-	@FXML private TableColumn<Course, String> semesterTableColumn;
+	@FXML private TableColumn<Catalog, String> semesterTableColumn;
 
-	@FXML private TableColumn<Course, LocalDate> startDateTableColumn;
+	@FXML private TableColumn<Catalog, LocalDate> startDateTableColumn;
 
-	@FXML private TableColumn<Course, LocalDate> endDateTableColumn;
+	@FXML private TableColumn<Catalog, LocalDate> endDateTableColumn;
 
-	@FXML TableColumn<Course, Integer> maxCapacityTableColumn;
+	@FXML TableColumn<Catalog, Integer> maxCapacityTableColumn;
 
-	@FXML TableColumn<Course, Integer> currCapacityTableColumn;
+	@FXML TableColumn<Catalog, Integer> currCapacityTableColumn;
 
-	@FXML private TableColumn<Course, String> statusTableColumn;
+	@FXML private TableColumn<Catalog, String> statusTableColumn;
 
 	@FXML private Button createCourseButton;
 
@@ -75,13 +75,13 @@ public class CatalogListViewController implements Initializable{
 
 	@FXML private TextField creditHoursTextField;
 
-	@FXML private TableColumn<Course, Boolean> coreReqTableColumn;
+	@FXML private TableColumn<Catalog, Boolean> coreReqTableColumn;
 
-	@FXML private TableColumn<Course, Integer> creditHoursTableColumn;
+	@FXML private TableColumn<Catalog, Integer> creditHoursTableColumn;
 
 	@FXML private Button editCourseButton;
 
-	@FXML private TableColumn<Course, Integer> idSchoolTableColumn;
+	@FXML private TableColumn<Catalog, Integer> idSchoolTableColumn;
 
 
 	
@@ -95,21 +95,21 @@ public class CatalogListViewController implements Initializable{
 		//courseListTable.setPlaceholder(new Label(""));
 
 
-		courseCodeTableColumn.setCellValueFactory(new PropertyValueFactory<Course, String>("course_code"));
-		titleTableColumn.setCellValueFactory(new PropertyValueFactory<Course, String>("title"));
+		courseCodeTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, String>("c_code"));
+		titleTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, String>("title"));
 
-		facultyTableColumn.setCellValueFactory(new PropertyValueFactory<Course, String>("instructor_name"));
-		semesterTableColumn.setCellValueFactory(new PropertyValueFactory<Course, String>("semester"));
-		startDateTableColumn.setCellValueFactory(new PropertyValueFactory<Course, LocalDate>("startDate"));
-		endDateTableColumn.setCellValueFactory(new PropertyValueFactory<Course, LocalDate>("endDate"));
-		maxCapacityTableColumn.setCellValueFactory(new PropertyValueFactory<Course, Integer>("max_capacity"));
-		currCapacityTableColumn.setCellValueFactory(new PropertyValueFactory<Course, Integer>("curr_capacity"));
-		statusTableColumn.setCellValueFactory(new PropertyValueFactory<Course, String>("status"));
+		facultyTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, String>("instructor_name"));
+		semesterTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, String>("semester"));
+		startDateTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, LocalDate>("startDate"));
+		endDateTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, LocalDate>("endDate"));
+		maxCapacityTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, Integer>("max_capacity"));
+		currCapacityTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, Integer>("curr_capacity"));
+		statusTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, String>("status"));
 		
-		coreReqTableColumn.setCellValueFactory(new PropertyValueFactory<Course, Boolean>("coreRequirement"));
-		creditHoursTableColumn.setCellValueFactory(new PropertyValueFactory<Course, Integer>("creditHours"));
+		coreReqTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, Boolean>("coreRequirement"));
+		creditHoursTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, Integer>("creditHours"));
 		
-		idSchoolTableColumn.setCellValueFactory(new PropertyValueFactory<Course, Integer>("creditHours"));
+		idSchoolTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, Integer>("creditHours"));
 
 
 		try {
@@ -136,7 +136,7 @@ public class CatalogListViewController implements Initializable{
 		// we create a Volunteer list, but it is empty, 
 		// thus, we need to connect it to the database
 		// List whose contents will be displayed in the table:
-		ObservableList<Course> coursesList = FXCollections.observableArrayList();
+		ObservableList<Catalog> coursesList = FXCollections.observableArrayList();
 
 		Connection conn = null;
 		Statement statement = null;
@@ -163,10 +163,10 @@ public class CatalogListViewController implements Initializable{
 
 			while (resultSet.next()) {
 				//			String sql = "INSERT INTO courses 
-				//(course_code, title, startDate, endDate, instructor_name, status, semester, curr_capacity, max_capacity)"
+				//(c_code, title, startDate, endDate, instructor_name, status, semester, curr_capacity, max_capacity)"
 
 
-				Course newCourse = new Course(resultSet.getString("course_code"),
+				Catalog newCourse = new Catalog(resultSet.getString("c_code"),
 						resultSet.getString("title"),
 						resultSet.getDate("startDate").toLocalDate(),
 						resultSet.getDate("endDate").toLocalDate(),
@@ -218,7 +218,7 @@ public class CatalogListViewController implements Initializable{
 
 		// we create a SceneChanger object.
 		SceneChanger sc = new SceneChanger();
-		sc.changeScenes(event, "NewEditCourseView.fxml", "New Course ");
+		sc.changeScenes(event, "NewEditCourseView.fxml", "New Catalog ");
 
 	}
 

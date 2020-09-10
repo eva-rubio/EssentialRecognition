@@ -5,13 +5,23 @@ package views;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
 
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritablePixelFormat;
 
 /**
  * @author erubi
@@ -24,6 +34,7 @@ public final class Utils {
 	
 	/**
 	 * Convert a Mat object (OpenCV) in the corresponding Image for JavaFX.
+	 * translates an OpenCV Mat to a JavaFX Image.
 	 * 
 	 * The class SwingFXUtils:
 	 * 		 provides utility methods for converting data types between Swing/AWT and JavaFX formats.
@@ -138,6 +149,45 @@ public final class Utils {
 		System.arraycopy(sourcePixelsBuffer, 0, targetPixels, 0, sourcePixelsBuffer.length);
 
 		return image;
+	}
+	
+	public static Mat imageToMat(Image image) {
+	    int width = (int) image.getWidth();
+	    int height = (int) image.getHeight();
+	    byte[] buffer = new byte[width * height * 4];
+
+	    PixelReader reader = image.getPixelReader();
+	    WritablePixelFormat<ByteBuffer> format = WritablePixelFormat.getByteBgraInstance();
+	    reader.getPixels(0, 0, width, height, format, buffer, 0, width * 4);
+
+	    Mat mat = new Mat(height, width, CvType.CV_8UC4);
+	    mat.put(0, 0, buffer);
+	    return mat;
+	}
+	
+	
+	public static void readCSV(String csvFilePath2, ArrayList<Mat> images, ArrayList<Integer> labels)  {
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader(csvFilePath2));
+
+			String line;
+
+			while((line = br.readLine()) != null){
+				String[] tokens = line.split("\\;");
+				
+				Mat readImage = Imgcodecs.imread(tokens[0], 0);
+				images.add(readImage);
+				labels.add(Integer.parseInt(tokens[1]));
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

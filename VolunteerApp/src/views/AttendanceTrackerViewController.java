@@ -7,20 +7,25 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import static org.opencv.imgproc.Imgproc.*;
+import static org.opencv.imgcodecs.Imgcodecs.imread;
 
 import javax.imageio.ImageIO;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
+import org.opencv.face.FisherFaceRecognizer;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
@@ -69,9 +74,15 @@ public class AttendanceTrackerViewController implements Initializable {
 	private Button savePicButton;
 	// the logo to be loaded
 	private Mat logo;
-	
+
 	//public static String basePath=System.getProperty("user.dir");
 	public static String classifierPath="resources/lbpcascades/lbpcascade_frontalface.xml";
+
+	//public static String csvFilePath="resources/TrainingEva.txt";
+	public static String csvFilePath="resources/TrainingEva.txt";
+	//public String folder = "resources/studentPics/";
+	//public String extension = ".jpg";
+
 
 
 	/**
@@ -118,7 +129,7 @@ public class AttendanceTrackerViewController implements Initializable {
 		 * constructor). The Camera index is set to 1, representing the built-in camera.
 		 */
 		this.capture = new VideoCapture(1);
-		
+
 
 		// set a fixed width for the frame
 		// currentFrame.setFitWidth(600);
@@ -200,7 +211,10 @@ public class AttendanceTrackerViewController implements Initializable {
 							// savePicButton
 							savePicButton.setDisable(false);
 
-							savePicButton.setOnAction(e -> saveImgToFile(imageToShow, isFaceDetected));
+							savePicButton.setOnAction(e -> saveImgToFile(imageToShow, isFaceDetected, frame));
+							//saveImage(frame,"resources/studentPics/veamos.jpg");
+							
+							
 							// }
 
 							// if(savePicButton.isPressed()) {
@@ -245,7 +259,7 @@ public class AttendanceTrackerViewController implements Initializable {
 
 	// http://www.java2s.com/Tutorials/Java/JavaFX_How_to/Image/Save_an_Image_to_a_file.html
 	// https://code.makery.ch/blog/javafx-dialogs-official/
-	public static void saveImgToFile(Image imageToSave, boolean canwesave) {
+	public static void saveImgToFile(Image imageToSave, boolean canwesave, Mat frame) {
 		Alert errorAlert = new Alert(AlertType.ERROR);
 		errorAlert.setTitle("Error Dialog");
 		String folder = "resources/studentPics/";
@@ -263,22 +277,35 @@ public class AttendanceTrackerViewController implements Initializable {
 			return;
 
 		} else {
+			
 			String studentName = nameInputDialog();
 			String fullfileName = folder + studentName + extension;
+			String fullfileNameGray = folder + studentName + "GRAY"+ extension;
 
 			// File outputFile = new File("resources/picture.jpg");
 			File outputFile = new File(fullfileName);
+			//File outputGRAYFile = new File(fullfileNameGray);
 			if (studentName.isEmpty()) {
 				errorAlert.setHeaderText("Empty name introduced.");
 				errorAlert.setContentText("Please introduce a valid name.");
 
 				errorAlert.showAndWait();
 				return;
-
 			}
+			
 			// BufferedImage bImage = SwingFXUtils.fromFXImage(imageToSave, null);
 
 			BufferedImage bImage = SwingFXUtils.fromFXImage(imageToSave, null);
+			saveImage(frame, fullfileNameGray);
+			/*
+			 * // Creating the empty destination matrix Mat grayFrame = new Mat(); //
+			 * Converting the image to gray scale and // saving it in the dst matrix
+			 * Imgproc.cvtColor(frame, grayFrame, Imgproc.COLOR_RGB2GRAY); // Writing the
+			 * image Imgcodecs.imwrite(fullfileNameGray, grayFrame);
+			 * System.out.println("The image is successfully to Grayscale");
+			 */
+	        
+	        
 
 			try {
 				ImageIO.write(bImage, "png", outputFile);
@@ -365,7 +392,7 @@ public class AttendanceTrackerViewController implements Initializable {
 		// initialize everything.
 		// Mat matrix = new Mat();
 		Mat frame = new Mat();
-		
+
 		/**
 		 * .isOpened() -- Checks to see if the video stream is available or not. (check
 		 * if the capture is open) i.e. checks whether it is instantiated.
@@ -482,12 +509,12 @@ public class AttendanceTrackerViewController implements Initializable {
 		 * (20% of the frame height)
 		 * compute minimum face size (2% of the frame height, in our case)
 		 */
-		
-			int height = grayFrame.rows();
-			if (Math.round(height * 0.2f) > 0) {
-				absoluteFaceSize = Math.round(height * 0.2f);
-			}
-		
+
+		int height = grayFrame.rows();
+		if (Math.round(height * 0.2f) > 0) {
+			absoluteFaceSize = Math.round(height * 0.2f);
+		}
+
 
 		// THE FACE DETECTION STARTS
 		// ------------------------------------------------------------------------------
@@ -520,7 +547,7 @@ public class AttendanceTrackerViewController implements Initializable {
 
 		if (facesArray.length == 0) {
 			this.isFaceDetected = false;
-			 //System.out.println("facesArray.length should be 0 : "+ facesArray.length);
+			//System.out.println("facesArray.length should be 0 : "+ facesArray.length);
 			return;
 		}
 
@@ -593,42 +620,98 @@ public class AttendanceTrackerViewController implements Initializable {
 		}
 		return "";
 	}
+	/*
+	 * Loads image from disk.
+	 *  loads the given image as a Mat object, which is a matrix representation.
+	 * https://www.baeldung.com/java-opencv
+	 * */
+	public static Mat loadImage(String imagePath) {
+		Imgcodecs imageCodecs = new Imgcodecs();
+		return imageCodecs.imread(imagePath);
+	}
+
+	/*
+	 * Saves the previously loaded image, we can use the imwrite() method of the Imgcodecs class.
+	 * 
+	 * width= 92
+	 * height= 112
+	 * Expected 10304 pixels
+	 * 
+	 * https://www.baeldung.com/java-opencv
+	 * */
+	public static void saveImage(Mat imageMatrix, String targetPath) {
+		Mat grayFrame = new Mat();
+		Mat mat_resized= new Mat();
+		// Get the height from the first image. We'll need this
+	    // later in code to reshape the images to their original
+	    // size AND we need to reshape incoming faces to this size:
+		Size scaleSize = new Size(91,112);
+		
+		Imgproc.cvtColor(imageMatrix, grayFrame, Imgproc.COLOR_BGR2GRAY);
+		//resize(faceIn, faceOut, Size(92, 112));
+		// equalize the frame histogram to improve the result
+		Imgproc.equalizeHist(grayFrame, grayFrame);
+		resize(grayFrame, mat_resized,scaleSize, 0,0, INTER_LINEAR);
+		Imgcodecs imgcodecs = new Imgcodecs();
+		imgcodecs.imwrite(targetPath, mat_resized);
+	}
+
+
+	private void trainRecognitionModel() {
+		/* The .csv TRAINING file is read, and two ArrayList(s) are created. 
+		 * One for the matrix of images, and 
+		 * another for their corresponding labels*/
+		ArrayList<Mat> images = new ArrayList<>();
+		ArrayList<Integer> labels = new ArrayList<>();
+		Utils.readCSV(csvFilePath, images, labels);
+
+
+
+		images.remove(images.size()-1);
+		labels.remove(labels.size()-1);
+
+
+		MatOfInt labelsMat = new MatOfInt();
+		// converts the arrayList into a matrix of mat ints
+		labelsMat.fromList(labels);
+
+		FisherFaceRecognizer ffr = FisherFaceRecognizer.create(80);
+
+		ffr.train(images, labelsMat);
+
+
+		ffr.save("mytraineddata");
+	}
+
 	/**
-	 * The action triggered by selecting the Haar Classifier checkbox. It loads the
-	 * trained set to be used for frontal face detection.
-	 */
-	/*
-	 * @FXML protected void haarSelected(Event event) { // check whether the lpb
-	 * checkbox is selected and deselect it if (this.lbpClassifier.isSelected())
-	 * this.lbpClassifier.setSelected(false);
+	 * Gets the detected face and compares it to the TRAINING DATA SET.
 	 * 
-	 * // loading the HAAR Classifier from the resource folder
-	 * this.checkboxSelection(
-	 * "resources/haarcascades/haarcascade_frontalface_alt.xml"); }
 	 * 
-	 *//**
-	 * The action triggered by selecting the LBP Classifier checkbox. It loads the
-	 * trained set to be used for frontal face detection.
-	 */
-	/*
-	 * @FXML protected void lbpSelected(Event event) { // check whether the haar
-	 * checkbox is selected and deselect it if (this.haarClassifier.isSelected())
-	 * this.haarClassifier.setSelected(false);
+	 * @param detectedFace	the face that was just detected from the stream.
 	 * 
-	 * // loading the IBP Classifier from the resource folder
-	 * this.checkboxSelection("resources/lbpcascades/lbpcascade_frontalface.xml"); }
-	 * 
-	 *//**
-	 * Method for loading a classifier trained set from disk
-	 * 
-	 * @param classifierPath the path on disk where a classifier trained set is
-	 *                       located
-	 *//*
-	 * private void checkboxSelection(String classifierPath) { // load the
-	 * classifier this.faceCascade.load(classifierPath);
-	 * 
-	 * // Making the video capture start this.cameraButton.setDisable(false);
-	 * this.takePicButton.setDisable(false); }
-	 * 
-	 */
+	 * */
+	public double[] recognition(Mat detectedFace) {
+
+		int[] predictedLabel = new int[1];
+		//The lower the value, the better the prediction.
+		double[] outConf = new double[1];
+		int result = -1;
+
+		FisherFaceRecognizer ffr = FisherFaceRecognizer.create(80);
+		ffr.read("mytraineddata");
+
+		ffr.predict(detectedFace, predictedLabel, outConf);
+
+		result = predictedLabel[0];
+
+
+		System.out.println("***Predicted label is " + predictedLabel[0] + ".***");
+
+		System.out.println("***Actual label is " + detectedFace + ".***");
+		System.out.println("***Confidence value is "+ outConf[0] + ".***");
+
+		return new double[] {result, outConf[0]};
+
+	}
+
 }

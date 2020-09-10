@@ -67,13 +67,13 @@
                            <children>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                                  <children>
-                                    <Button fx:id="newAddressButton" maxWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Create Address" />
+                                    <Button fx:id="newAddressButton" maxWidth="100.0" mnemonicParsing="false" onAction="#createAddressButtonPushed" prefHeight="25.0" prefWidth="100.0" text="Create Address" />
                                     <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="15.0" text="or" textAlignment="CENTER">
                                        <font>
                                           <Font name="System Italic" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="selectAddressButton" maxWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Select Exisiting" />
+                                    <Button fx:id="selectAddressButton" maxWidth="100.0" mnemonicParsing="false" onAction="#selectAddressButtonPushed" prefHeight="25.0" prefWidth="100.0" text="Select Exisiting" />
                                  </children>
                               </HBox>
                               <TextField fx:id="addressIDTextField" promptText="Address ID" />

@@ -20,6 +20,6 @@ enum DayOfWeek {
 public class Schedule {
 	
 	/**		PK - Primary Key 	*/
-	private Course theCourseID;
+	private Catalog theCourseID;
 
 }

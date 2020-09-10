@@ -28,6 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import models.Address;
 import models.Human;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Button;
@@ -301,8 +302,8 @@ public class NewUserViewController implements Initializable, ControllerClass {
 			
 			//TODO: Go to my individual student schedule/timetable. 
 			
-			LogHoursViewController controller = new LogHoursViewController(); 
-			sc.changeScenes(event, "LogHoursView.fxml", "Log Hours", human, controller); 
+		//	LogHoursViewController controller = new LogHoursViewController(); 
+			//sc.changeScenes(event, "LogHoursView.fxml", "Log Hours", human, controller); 
 		}
 	}
 	/**
@@ -474,6 +475,29 @@ public class NewUserViewController implements Initializable, ControllerClass {
 			System.out.println(l.getClassName()+"/"+l.getMethodName()+":"+l.getLineNumber());
 		}
 
+	}
+
+	@FXML public void createAddressButtonPushed(ActionEvent event) {}
+
+	@FXML public void selectAddressButtonPushed(ActionEvent event) {
+		SceneChanger sc = new SceneChanger();
+
+		//get the human object that has been selected from the table. 
+		//Address address = this.addressTable.getSelectionModel().getSelectedItem();
+
+		// the Controller class to pass in
+		//AddressTableViewController atvc = new AddressTableViewController(); 
+
+		//System.out.printf("The image file is in %s%n", human.getImageFile().getCanonicalPath());
+
+		try {
+			sc.changeScenes(event, "AddressTableView.fxml", "Select Address" );
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+			System.out.println(e);
+			StackTraceElement l = new Exception().getStackTrace()[0];
+			System.out.println(l.getClassName()+"/"+l.getMethodName()+":"+l.getLineNumber());
+		}
 	}
 
 

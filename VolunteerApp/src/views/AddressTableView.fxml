@@ -1,34 +1,201 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<GridPane alignment="CENTER" hgap="10.0" maxHeight="550.0" maxWidth="500.0" prefHeight="550.0" prefWidth="500.0" vgap="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
-   <columnConstraints>
-      <ColumnConstraints />
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-   </rowConstraints>
+<AnchorPane maxHeight="500.0" maxWidth="650.0" prefHeight="500.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.AddressTableViewController">
    <children>
-      <Label text="Address Listings" GridPane.rowIndex="1" />
-      <TableView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
-        <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
-        </columns>
-      </TableView>
+      <TabPane prefHeight="500.0" prefWidth="650.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Addess Info">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox prefHeight="570.6666666666666" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <VBox prefHeight="571.0" prefWidth="200.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="32.0" prefWidth="200.0" text="Add Address">
+                                       <font>
+                                          <Font name="System Bold Italic" size="18.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label text="Street:">
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="System Bold Italic" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="streetTextField" maxHeight="30.0" minHeight="25.0" prefHeight="30.0" promptText="376 Hale Street">
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <Label text="City:">
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="System Bold Italic" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="cityTextField" maxHeight="30.0" minHeight="25.0" prefHeight="30.0" promptText="Beverly">
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <Label text="State:">
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="System Bold Italic" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" prefWidth="190.0" text="Must be in 2 letter format. Please leave blank if does not apply. " textFill="#4f4c4c" wrapText="true">
+                                       <VBox.margin>
+                                          <Insets left="10.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="System Italic" size="10.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="stateTextField" maxHeight="30.0" minHeight="25.0" prefHeight="30.0" promptText="MA">
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <Label text="Zip Code:">
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="System Bold Italic" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="zipTextField" maxHeight="30.0" minHeight="25.0" prefHeight="30.0" promptText="01915">
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <Label text="Country:">
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="System Bold Italic" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="countryTextField" maxHeight="30.0" minHeight="25.0" prefHeight="30.0" promptText="USA">
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                       <children>
+                                          <Label prefHeight="0.0" prefWidth="71.0" text="On Campus?">
+                                             <padding>
+                                                <Insets top="5.0" />
+                                             </padding>
+                                             <font>
+                                                <Font name="System Bold Italic" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <CheckBox fx:id="onCampusCheckBox" mnemonicParsing="false" selected="true" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="10.0" top="5.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                    </HBox>
+                                    <Separator prefWidth="200.0">
+                                       <padding>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </padding>
+                                    </Separator>
+                                    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+                                       <children>
+                                          <Button fx:id="clearButton" maxWidth="150.0" mnemonicParsing="false" text="Clear Form" />
+                                          <Button fx:id="saveButton" maxWidth="150.0" mnemonicParsing="false" text="Save Address">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="471.0" prefWidth="451.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <TableView fx:id="addressTable" prefHeight="472.0" prefWidth="451.0">
+                                      <columns>
+                                        <TableColumn fx:id="addressIDColumn" prefWidth="30.000062346458435" text="#" />
+                                        <TableColumn fx:id="streetColumn" prefWidth="105.99992752075195" text="Street" />
+                                          <TableColumn fx:id="cityColumn" prefWidth="83.33331298828125" text="City" />
+                                          <TableColumn fx:id="stateColumn" prefWidth="47.99998474121094" text="State" />
+                                          <TableColumn fx:id="zipColumn" prefWidth="66.00003051757812" text="Zip Code" />
+                                          <TableColumn fx:id="countryColumn" prefWidth="59.33331298828125" text="Country" />
+                                          <TableColumn fx:id="onCampusColumn" prefWidth="82.0" text="On Campus?" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
    </children>
-</GridPane>
+</AnchorPane>

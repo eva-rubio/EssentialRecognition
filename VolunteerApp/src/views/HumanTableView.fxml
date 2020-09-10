@@ -28,6 +28,7 @@
                   <TableColumn fx:id="phoneColumn" prefWidth="106.0" text="Phone #" />
                   <TableColumn fx:id="dobColumn" prefWidth="201.33331298828125" text="Birthday" />
                   <TableColumn fx:id="emailColumn" editable="false" prefWidth="75.0" text="Email" />
+                  <TableColumn fx:id="addressNameColumn" prefWidth="75.0" text="Column X" />
               </columns>
             </TableView>
             <ToolBar prefHeight="40.0" prefWidth="200.0">

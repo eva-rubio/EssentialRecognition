@@ -33,9 +33,7 @@ public class Address {
 
 
 
-	public Address(String street, String city, String state, String zipCode, String country,
-			boolean onCampusHousing) {
-
+	public Address(String street, String city, String state, String zipCode, String country, boolean onCampusHousing) {
 		setStreet(street);
 		setCity(city);
 		setState(state);
