@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -11,33 +12,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.adminarea.AdminViewController">
+<AnchorPane prefHeight="465.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.adminarea.AdminViewController">
    <children>
-      <VBox layoutX="218.0" layoutY="71.0" prefHeight="600.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" layoutX="218.0" layoutY="71.0" prefHeight="600.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label alignment="CENTER" text="Admin Area">
+                  <Label alignment="CENTER" text="Faculty Area">
                      <font>
                         <Font name="System Bold Italic" size="24.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
-            <Label text="Welcome " />
-            <Label fx:id="adminNameLabel" text="Label" />
-            <Label alignment="CENTER" prefHeight="20.0" prefWidth="728.0" text="View Global Data">
-               <font>
-                  <Font name="System Italic" size="14.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="763.0" text="Register" textAlignment="CENTER">
-               <font>
-                  <Font name="System Italic" size="14.0" />
-               </font>
-            </Label>
-            <Separator prefWidth="200.0" />
-            <GridPane alignment="CENTER" hgap="10.0" maxWidth="408.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="149.0" prefWidth="408.0" vgap="10.0">
+            <GridPane alignment="CENTER" hgap="10.0" maxWidth="419.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="311.0" prefWidth="419.0" vgap="10.0">
                <columnConstraints>
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -48,20 +36,42 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button fx:id="studentListButton" mnemonicParsing="false" text="Student List" />
-                <Button fx:id="newStudentButton" mnemonicParsing="false" text="New Student" GridPane.columnIndex="1" />
-                  <Button fx:id="editStudentButton" mnemonicParsing="false" text="Edit Student" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Button fx:id="addStudentToCourseButton" mnemonicParsing="false" text="Add Student to Course" GridPane.rowIndex="1" />
+                  <Button fx:id="humanListButton" mnemonicParsing="false" onAction="#humanListButtonPushed" prefHeight="25.0" prefWidth="100.0" text="Human List">
+                     <effect>
+                        <Reflection />
+                     </effect></Button>
+                <Button fx:id="catalogListButton" mnemonicParsing="false" onAction="#catalogListButtonPushed" prefHeight="25.0" prefWidth="100.0" text="Catalog List" GridPane.columnIndex="1">
+                     <effect>
+                        <Reflection />
+                     </effect></Button>
+                  <Button fx:id="sectionListButton" mnemonicParsing="false" onAction="#sectionListButtonPushed" prefHeight="25.0" prefWidth="100.0" text="Section List" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <effect>
+                        <Reflection />
+                     </effect></Button>
+                  <Button fx:id="addressListButton" mnemonicParsing="false" onAction="#addressListButtonPushed" prefHeight="25.0" prefWidth="100.0" text="Address List" GridPane.rowIndex="1">
+                     <effect>
+                        <Reflection />
+                     </effect></Button>
+                  <Button fx:id="scheduleListButton" mnemonicParsing="false" onAction="#scheduleListButtonPushed" prefHeight="25.0" prefWidth="100.0" text="Schedule List" GridPane.rowIndex="2">
+                     <effect>
+                        <Reflection />
+                     </effect>
+                  </Button>
+                  <Button fx:id="attendanceListButton" mnemonicParsing="false" onAction="#attendanceListButtonPushed" prefHeight="25.0" prefWidth="100.0" text="Attendance List" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <effect>
+                        <Reflection />
+                     </effect>
+                  </Button>
                </children>
             </GridPane>
-            <Separator prefWidth="200.0" />
-            <Button fx:id="facultyListButton" mnemonicParsing="false" text="Faculty List" />
-            <Button fx:id="newFacultyButton" mnemonicParsing="false" text="New Faculty" />
-            <Button fx:id="editFacultyButton" mnemonicParsing="false" text="Edit Faculty" />
-            <Separator prefWidth="200.0" />
-          <Button fx:id="courseCatalogButton" mnemonicParsing="false" text="Course Catalog" />
-            <Button fx:id="newCourseButton" mnemonicParsing="false" text="New Course" />
-            <Button fx:id="editCourseButton" mnemonicParsing="false" text="Edit Course" />
+            <VBox alignment="BOTTOM_RIGHT" prefHeight="73.0" prefWidth="600.0">
+               <children>
+                  <Button alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#logoutButtonPushed" text="Logout" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
          </children>
       </VBox>
    </children>

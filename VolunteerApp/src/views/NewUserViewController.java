@@ -289,22 +289,8 @@ public class NewUserViewController implements Initializable, ControllerClass {
 	public void cancelButtonPushed(ActionEvent event) throws IOException {
 
 		SceneChanger sc = new SceneChanger();
-
-		//check if it is an admin user and if so, go to the table view
 		
-//TODO : REMOVE TRUEEEE
-		
-		
-		if ((SceneChanger.getLoggedInUser().getH_type() == 3)|| true) {
-			sc.changeScenes(event,"HumanTableView.fxml", "All Humans"); 
-
-		} else { 
-			
-			//TODO: Go to my individual student schedule/timetable. 
-			
-		//	LogHoursViewController controller = new LogHoursViewController(); 
-			//sc.changeScenes(event, "LogHoursView.fxml", "Log Hours", human, controller); 
-		}
+		sc.changeScenes(event,"HumanTableView.fxml", "All Humans"); 
 	}
 	/**
 	 * Logs the current user out of the application and returns them to the LoginView.

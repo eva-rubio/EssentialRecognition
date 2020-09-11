@@ -50,10 +50,7 @@ import javafx.scene.text.Text;
  *
  */
 public class AttendanceTrackerViewController implements Initializable {
-	@FXML
-	private Text dateText;
-	@FXML
-	private ImageView currentFrame;
+	@FXML private ImageView currentFrame;
 	@FXML
 	private Button cameraButton;
 	@FXML

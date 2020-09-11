@@ -35,7 +35,6 @@ import java.time.LocalDate;
  */
 public class Catalog {
 
-
 	private int catalogID;
 	private String c_code;
 	private String c_title;
@@ -57,56 +56,33 @@ public class Catalog {
 	}
 
 	
-
-
-	/**
-	 * @param schoolID
-	 */
+	public String getC_title() {
+		return c_title;
+	}
+	public String getC_description() {
+		return c_description;
+	}
+	public int getSchoolID() {
+		return schoolID;
+	}
 	private void setSchoolID(int schoolID) {
-		// TODO Auto-generated method stub
-		
+		this.schoolID = schoolID;	
 	}
-
-	/**
-	 * @param c_description
-	 */
 	private void setC_description(String c_description) {
-		// TODO Auto-generated method stub
-		
+		this.c_description = c_description;	
 	}
-
-
-	/**
-	 * @param c_title
-	 */
 	private void setC_title(String c_title) {
 		this.c_title = c_title;
 	}
-
-	/**
-	 * @return the catalogID
-	 */
-	public int getC_ID() {
+	public int getCatalogID() {
 		return catalogID;
 	}
-
-	/**
-	 * @param catalogID the catalogID to set
-	 */
 	public void setCatalogID(int catalogID) {
 		this.catalogID = catalogID;
 	}
-
-	/**
-	 * @return the catalog_code
-	 */
 	public String getC_code() {
 		return c_code;
 	}
-
-	/**
-	 * @param catalog_code the catalog_code to set
-	 */
 	public void setC_code(String c_code) {
 		this.c_code = c_code;
 	}
@@ -149,7 +125,7 @@ public class Catalog {
 			//5. Bind the values to the parameters
 			preparedStatement.setString(1, c_code);
 			preparedStatement.setString(2, c_title);
-			preparedStatement.setDouble(3, creditHours);
+			preparedStatement.setInt(3, creditHours);
 			preparedStatement.setBoolean(4, coreRequirement);
 			preparedStatement.setString(5, c_description);
 			preparedStatement.setInt(6, schoolID);
@@ -200,7 +176,7 @@ public class Catalog {
 			//4. bind the parameters
 			preparedStatement.setString(1, c_code);
 			preparedStatement.setString(2, c_title);
-			preparedStatement.setDouble(3, creditHours);
+			preparedStatement.setInt(3, creditHours);
 			preparedStatement.setBoolean(4, coreRequirement);
 			preparedStatement.setString(5, c_description);
 			preparedStatement.setInt(6, schoolID);

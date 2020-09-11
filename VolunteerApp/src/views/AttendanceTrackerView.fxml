@@ -19,7 +19,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.AttendanceTrackerViewController">
    <children>
@@ -90,11 +89,21 @@
                                              <children>
                                                 <HBox alignment="CENTER" blendMode="MULTIPLY" prefHeight="47.0" prefWidth="531.0">
                                                    <children>
-                                                      <Text fx:id="dateText" lineSpacing="2.0" stroke="#8e0b0b" strokeType="OUTSIDE" strokeWidth="0.0" text="[ 2020-07-07 ]">
+                                                      <Label text="[ ">
                                                          <font>
                                                             <Font name="Consolas" size="14.0" />
                                                          </font>
-                                                      </Text>
+                                                      </Label>
+                                                      <Label fx:id="dateLabel" text="Label">
+                                                         <font>
+                                                            <Font name="Consolas" size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text=" ]">
+                                                         <font>
+                                                            <Font name="Consolas" size="14.0" />
+                                                         </font>
+                                                      </Label>
                                                    </children>
                                                 </HBox>
                                                 <Separator prefWidth="200.0" />
@@ -116,7 +125,7 @@
                                                    </children></VBox>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="471.0" spacing="20.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" text="Re-Take" />
+                                                      <Button fx:id="uploadImageButton" mnemonicParsing="false" onAction="#uploadImageButtonPushed" text="Upload Image" />
                                                       <Button fx:id="cameraButton" mnemonicParsing="false" onAction="#startCamera" text="Start Camera">
                                                          <font>
                                                             <Font name="System Bold" size="12.0" />

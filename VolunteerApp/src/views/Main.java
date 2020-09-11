@@ -59,20 +59,21 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		//(1)Parent root = FXMLLoader.load(getClass().getResource("NewUserView.fxml"));
-		// (3) Parent root = FXMLLoader.load(getClass().getResource("LoginView.fxml"));
+		
+		//Parent root = FXMLLoader.load(getClass().getResource("LoginView.fxml"));
 		//Parent root = FXMLLoader.load(getClass().getResource("DetailsCourseView.fxml"));  
 
 		//Parent root = FXMLLoader.load(getClass().getResource("CatalogListView.fxml"));  
 		//CatalogListViewController
 		
-		Parent root = FXMLLoader.load(getClass().getResource("NewEditCourseView.fxml"));  
+		//Parent root = FXMLLoader.load(getClass().getResource("NewEditCourseView.fxml"));  
 
 
 		//Parent root = FXMLLoader.load(getClass().getResource("HumanTableView.fxml"));
 		///VolunteerApp/src/views/adminarea/NewSectionView.fxml
 		
 		//Parent root = FXMLLoader.load(getClass().getResource("adminarea/NewSectionView.fxml"));
-		//Parent root = FXMLLoader.load(getClass().getResource("AttendanceTrackerView.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("AttendanceTrackerView.fxml"));
 
 		Scene scene = new Scene(root);
 

@@ -56,6 +56,8 @@ public class NewEditCourseViewController implements Initializable, ControllerCla
 	 */
 	public void saveCourseButtonPushed(ActionEvent event) {
 
+		int schoolIDvalue =  idSchoolSpinner.getValue();
+		
 		try {
 			// if we are updating
 			if(catalog != null) {
@@ -63,14 +65,14 @@ public class NewEditCourseViewController implements Initializable, ControllerCla
 			} else {
 				catalog = new Catalog(codeTextField.getText(), titleTextField.getText(), 
 						credHrsRadioButtonChanged(), coreReqCheckBox.isSelected(),
-						descriptionTextArea.getText(), idSchoolSpinner.getValue());
+						descriptionTextArea.getText(), schoolIDvalue);
 				
 				System.out.println(codeTextField.getText());
 				System.out.println(titleTextField.getText());
 				System.out.println(credHrsRadioButtonChanged());
 				System.out.println(coreReqCheckBox.isSelected());
 				System.out.println(descriptionTextArea.getText());
-				System.out.println(idSchoolSpinner.getValue());
+				System.out.println(schoolIDvalue);
 				
 			}
 
@@ -97,7 +99,6 @@ public class NewEditCourseViewController implements Initializable, ControllerCla
 	 * ALL data in the form will be LOST.
 	 */
 	public void cancelButtonPushed(ActionEvent event) throws IOException {
-
 		SceneChanger sc = new SceneChanger();
 		sc.changeScenes(event, "CatalogListView.fxml", "Course Catalog");
 	}

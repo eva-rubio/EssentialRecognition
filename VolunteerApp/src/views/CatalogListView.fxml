@@ -11,29 +11,32 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.CatalogListViewController">
    <children>
       <VBox alignment="CENTER" layoutX="293.0" layoutY="88.0" prefHeight="688.0" prefWidth="1093.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="Course Catalog">
+            <Label text="Course Catalog List">
                <font>
                   <Font name="System Bold Italic" size="24.0" />
                </font>
             </Label>
-            <TableView fx:id="courseListTable" prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="catalogListTable" prefHeight="200.0" prefWidth="200.0">
                <columns>
-                  <TableColumn fx:id="volunterIDColumn" prefWidth="75.33334159851074" text="Course ID" />
-                  <TableColumn fx:id="firstNameColumn" prefWidth="76.66669464111328" text="Title" />
-                  <TableColumn fx:id="phoneColumn" prefWidth="94.66668701171875" text="Faculty" />
-                  <TableColumn fx:id="lastNameColumn" prefWidth="101.99992370605469" text="Semester" />
-                  <TableColumn fx:id="meetingTimesColumn" prefWidth="90.0" text="Meeting Times" />
-                  <TableColumn fx:id="schoolColumn" prefWidth="75.0" text="School" />
+                  <TableColumn fx:id="c_codeTableColumn" prefWidth="75.0" text="Code" />
+                  <TableColumn fx:id="c_titleTableColumn" prefWidth="76.66669464111328" text="Title" />
+                  <TableColumn fx:id="creditHoursTableColumn" prefWidth="75.0" text="Credits" />
+                  <TableColumn fx:id="coreReqTableColumn" prefWidth="75.0" text="Core Req?" />
+                  <TableColumn fx:id="c_descriptionTableColumn" prefWidth="75.0" text="Description" />
+                  <TableColumn fx:id="schoolIDTableColumn" prefWidth="75.0" text="School ID" />
                </columns>
             </TableView>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
                <items>
-                  <Button fx:id="createCourseButton" mnemonicParsing="false" onAction="#createCourseButtonPushed" prefWidth="135.0" text="Create Course" />
-                  <Button fx:id="editCourseButton" mnemonicParsing="false" onAction="#editCourseButtonPushed" prefWidth="135.0" text="Edit Course" />
+                  <Button fx:id="newCatalogButton" mnemonicParsing="false" onAction="#newCatalogButtonPushed" prefWidth="135.0" text="New Catalog">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
+                  <Button fx:id="editCatalogButton" mnemonicParsing="false" onAction="#editCatalogButtonPushed" prefWidth="135.0" text="Edit Catalog" />
                   <Button mnemonicParsing="false" prefWidth="135.0" text="Log Hours" />
                </items>
             </ToolBar>

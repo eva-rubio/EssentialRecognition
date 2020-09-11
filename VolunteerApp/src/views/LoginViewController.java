@@ -130,18 +130,22 @@ public class LoginViewController implements Initializable  {
                 SceneChanger.setLoggedInUser(human);
 
 			//TODO: BORRAR NO VA AQUI.
-			sc.changeScenes(event, "HumanTableView.fxml", "All People");
+			//sc.changeScenes(event, "HumanTableView.fxml", "All People");
 			// if the passwords match (if the password is valid) AND it is an 'admin' user 
 			//		change the Scene to the HumanTableView.
-/*
+
 			if (userPW.equals(dbPassword) && (userType == 2 || userType == 3)) {
 				//SceneChanger.setLoggedInUser(human);
-				sc.changeScenes(event, "HumanTableView.fxml", "All People");
+				sc.changeScenes(event, "adminarea/AdminView.fxml", "Admin Area");
 
 				// if it is a valid user but NOT an administrative user
 				// 		change the Scene to the LogHoursView.
+				
 			} else if (userPW.equals(dbPassword)) {
-				// create an instance of the controller class for log hours view (LogHoursViewController.java):
+				sc.changeScenes(event, "HumanTableView.fxml", "All People");
+			}
+			
+	/*			// create an instance of the controller class for log hours view (LogHoursViewController.java):
 				LogHoursViewController controllerClass = new LogHoursViewController();
 				//we need to pass in the Human info
 				sc.changeScenes(event, "LogHoursView.fxml", "Log Hours", human, controllerClass);

@@ -45,46 +45,26 @@ import javafx.scene.control.CheckBox;
  */
 public class CatalogListViewController implements Initializable{
 
-	@FXML private TableView<Catalog> courseListTable;
+	@FXML private TableView<Catalog> catalogListTable;
+
+	@FXML private TableColumn<Catalog, String> c_codeTableColumn;
+
+	@FXML private TableColumn<Catalog, String> c_titleTableColumn;
+	@FXML private TableColumn<Catalog, String> c_descriptionTableColumn;
+
 	
-	@FXML private TableColumn<Catalog, String> courseCodeTableColumn;
 
-	@FXML private TableColumn<Catalog, String> titleTableColumn;
-
-	@FXML private TableColumn<Catalog, String> facultyTableColumn;
-
-	@FXML private TableColumn<Catalog, String> semesterTableColumn;
-
-	@FXML private TableColumn<Catalog, LocalDate> startDateTableColumn;
-
-	@FXML private TableColumn<Catalog, LocalDate> endDateTableColumn;
-
-	@FXML TableColumn<Catalog, Integer> maxCapacityTableColumn;
-
-	@FXML TableColumn<Catalog, Integer> currCapacityTableColumn;
-
-	@FXML private TableColumn<Catalog, String> statusTableColumn;
-
-	@FXML private Button createCourseButton;
-
-	@FXML private Button clearFormButton;
-
-	@FXML private Button loadDataButton;
-
-	@FXML private CheckBox coreReqCheckBox;
-
-	@FXML private TextField creditHoursTextField;
-
+	@FXML private Button newCatalogButton;
 	@FXML private TableColumn<Catalog, Boolean> coreReqTableColumn;
 
 	@FXML private TableColumn<Catalog, Integer> creditHoursTableColumn;
 
-	@FXML private Button editCourseButton;
+	@FXML private Button editCatalogButton;
 
-	@FXML private TableColumn<Catalog, Integer> idSchoolTableColumn;
+	@FXML private TableColumn<Catalog, Integer> schoolIDTableColumn;
 
 
-	
+
 	/**
 	 * The method of initializing the visual components described in the FXML document
 	 *
@@ -92,29 +72,19 @@ public class CatalogListViewController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// Write an empty string instead of "No content in table":
-		//courseListTable.setPlaceholder(new Label(""));
+		//catalogListTable.setPlaceholder(new Label(""));
 
 
-		courseCodeTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, String>("c_code"));
-		titleTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, String>("title"));
-
-		facultyTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, String>("instructor_name"));
-		semesterTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, String>("semester"));
-		startDateTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, LocalDate>("startDate"));
-		endDateTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, LocalDate>("endDate"));
-		maxCapacityTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, Integer>("max_capacity"));
-		currCapacityTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, Integer>("curr_capacity"));
-		statusTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, String>("status"));
-		
-		coreReqTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, Boolean>("coreRequirement"));
+		c_codeTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, String>("c_code"));
+		c_titleTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, String>("c_title"));
 		creditHoursTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, Integer>("creditHours"));
-		
-		idSchoolTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, Integer>("creditHours"));
+		coreReqTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, Boolean>("coreRequirement"));
+		c_descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<Catalog, String>("c_description"));
 
 
 		try {
 
-			loadCourses();
+			loadCatalogList();
 
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
@@ -124,19 +94,19 @@ public class CatalogListViewController implements Initializable{
 		}		
 	}
 
-	
-	
+
+
 
 	/**
 	 * This method will load/get/retrieve the courses from the database and load them into 
 	 * the TableView object
 	 */
-	public void loadCourses() throws SQLException {
+	public void loadCatalogList() throws SQLException {
 
 		// we create a Volunteer list, but it is empty, 
 		// thus, we need to connect it to the database
 		// List whose contents will be displayed in the table:
-		ObservableList<Catalog> coursesList = FXCollections.observableArrayList();
+		ObservableList<Catalog> catalogList = FXCollections.observableArrayList();
 
 		Connection conn = null;
 		Statement statement = null;
@@ -153,7 +123,7 @@ public class CatalogListViewController implements Initializable{
 			statement = conn.createStatement();
 
 			// (3)  Create the SQL query.
-			resultSet = statement.executeQuery("SELECT * FROM courses");
+			resultSet = statement.executeQuery("SELECT * FROM catalog");
 
 			/*
 			 * (4)  Create volunteer objects from EACH record.
@@ -163,29 +133,24 @@ public class CatalogListViewController implements Initializable{
 
 			while (resultSet.next()) {
 				//			String sql = "INSERT INTO courses 
-				//(c_code, title, startDate, endDate, instructor_name, status, semester, curr_capacity, max_capacity)"
+				//(c_code, c_title, creditHours, coreRequirement, c_description, schoolID)
 
-
-				Catalog newCourse = new Catalog(resultSet.getString("c_code"),
-						resultSet.getString("title"),
-						resultSet.getDate("startDate").toLocalDate(),
-						resultSet.getDate("endDate").toLocalDate(),
-						resultSet.getString("instructor_name"),
-						resultSet.getString("status"),
-						resultSet.getString("semester"),
-						resultSet.getInt("curr_capacity"),
-						resultSet.getInt("max_capacity"),
-						resultSet.getBoolean("coreRequirement"),
+				Catalog newCatalog = new Catalog(resultSet.getString("c_code"),
+						resultSet.getString("c_title"),
 						resultSet.getInt("creditHours"),
-						resultSet.getInt("id_school"));
+						resultSet.getBoolean("coreRequirement"),
+						resultSet.getString("c_description"),
+						resultSet.getInt("schoolID"));
+				
+				newCatalog.setCatalogID(resultSet.getInt("catalogID"));
 
 
-				// Add the newly created Volunteer into our ObservableList.
-				coursesList.add(newCourse);
+				// Add the newly created Catalog into our ObservableList.
+				catalogList.add(newCatalog);
 			}
 
 			// 
-			courseListTable.getItems().addAll(coursesList);
+			catalogListTable.getItems().addAll(catalogList);
 
 		} catch (Exception e) {
 
@@ -212,9 +177,9 @@ public class CatalogListViewController implements Initializable{
 		}
 	}
 
-	
 
-	@FXML public void createNewCourseButtonPushed(ActionEvent event) throws IOException {
+
+	@FXML public void newCatalogButtonPushed(ActionEvent event) throws IOException {
 
 		// we create a SceneChanger object.
 		SceneChanger sc = new SceneChanger();
@@ -222,33 +187,11 @@ public class CatalogListViewController implements Initializable{
 
 	}
 
-	@FXML public void editCourseButtonPushed(ActionEvent event) {}
-
-	@FXML public void doNew(ActionEvent event) {}
-
-	@FXML public void doOpen(ActionEvent event) {
-
+	@FXML public void editCatalogButtonPushed(ActionEvent event) throws IOException{
+		// we create a SceneChanger object.
+		SceneChanger sc = new SceneChanger();
+		sc.changeScenes(event, "NewEditCourseView.fxml", "New Catalog ");
 	}
-
-	@FXML public void doSave(ActionEvent event) {}
-
-	@FXML public void doExit(ActionEvent event) {
-		Platform.exit(); // correct completion of the JavaFX application
-	}
-
-	@FXML public void doAdd(ActionEvent event) {}
-
-	@FXML public void doRemove(ActionEvent event) {}
-
-	@FXML public void doAbout(ActionEvent event) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("About...");
-		alert.setHeaderText("Population censuses data");
-		alert.setContentText("Version 1.0");
-		alert.showAndWait();
-	}
-
-
 
 	/**
 	 * Create a file selection dialog
@@ -281,16 +224,12 @@ public class CatalogListViewController implements Initializable{
 		alert.showAndWait();
 	}
 
-	/**
-	 * Error dialog box
-	 *
-	 * @param message message text
-	 */
-	public static void showError(String message) {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Error");
-		alert.setHeaderText(message);
-		alert.showAndWait();
+public void logoutButttonPushed(ActionEvent event) throws IOException {
+		
+		SceneChanger.setLoggedInUser(null);
+		
+		SceneChanger sc = new SceneChanger();
+		sc.changeScenes(event, "LoginView.fxml", "Login");	
 	}
 
 
