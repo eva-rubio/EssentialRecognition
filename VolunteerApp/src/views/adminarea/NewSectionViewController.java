@@ -94,10 +94,10 @@ public class NewSectionViewController implements Initializable{
 
 
 
-		SpinnerValueFactory<Integer> capacityCourseValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 50);
+		//SpinnerValueFactory<Integer> capacityCourseValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 50);
 
-		this.capacitySpinner.setValueFactory(capacityCourseValueFactory);
-		capacitySpinner.setEditable(true);	
+		//this.capacitySpinner.setValueFactory(capacityCourseValueFactory);
+		//capacitySpinner.setEditable(true);	
 	}
 
 

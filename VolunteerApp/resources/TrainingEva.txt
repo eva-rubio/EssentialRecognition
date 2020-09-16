@@ -388,16 +388,6 @@ C:\Users\erubi\Documents\ATTfaces-jpg\faces\s40\s407.jpg;39
 C:\Users\erubi\Documents\ATTfaces-jpg\faces\s40\s408.jpg;39
 C:\Users\erubi\Documents\ATTfaces-jpg\faces\s40\s409.jpg;39
 C:\Users\erubi\Documents\ATTfaces-jpg\faces\s40\s4010.jpg;39
-C:\Users\erubi\Documents\ATTfaces-jpg\faces\s41\eva1.jpg;40
-C:\Users\erubi\Documents\ATTfaces-jpg\faces\s41\eva2.jpg;40
-C:\Users\erubi\Documents\ATTfaces-jpg\faces\s41\eva3.jpg;40
-C:\Users\erubi\Documents\ATTfaces-jpg\faces\s41\eva4.jpg;40
-C:\Users\erubi\Documents\ATTfaces-jpg\faces\s41\eva5.jpg;40
-C:\Users\erubi\Documents\ATTfaces-jpg\faces\s41\eva6.jpg;40
-C:\Users\erubi\Documents\ATTfaces-jpg\faces\s41\eva7.jpg;40
-C:\Users\erubi\Documents\ATTfaces-jpg\faces\s41\eva8.jpg;40
-C:\Users\erubi\Documents\ATTfaces-jpg\faces\s41\eva9.jpg;40
-C:\Users\erubi\Documents\ATTfaces-jpg\faces\s41\eva10.jpg;40
 C:\Users\erubi\Documents\ATTfaces-jpg\faces\s2\s21.jpg;1
 C:\Users\erubi\Documents\ATTfaces-jpg\faces\s2\s22.jpg;1
 C:\Users\erubi\Documents\ATTfaces-jpg\faces\s2\s23.jpg;1

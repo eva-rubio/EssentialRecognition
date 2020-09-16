@@ -57,12 +57,11 @@ public class Main extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
-		//(1)Parent root = FXMLLoader.load(getClass().getResource("NewUserView.fxml"));
 		
-		//Parent root = FXMLLoader.load(getClass().getResource("LoginView.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("LoginView.fxml"));
+		
 		//Parent root = FXMLLoader.load(getClass().getResource("DetailsCourseView.fxml"));  
-
+		//(1)Parent root = FXMLLoader.load(getClass().getResource("NewUserView.fxml"));
 		//Parent root = FXMLLoader.load(getClass().getResource("CatalogListView.fxml"));  
 		//CatalogListViewController
 		
@@ -75,7 +74,7 @@ public class Main extends Application {
 		//Parent root = FXMLLoader.load(getClass().getResource("adminarea/NewSectionView.fxml"));
 		//Parent root = FXMLLoader.load(getClass().getResource("adminarea/ScheduleTableView.fxml"));
 		//Parent root = FXMLLoader.load(getClass().getResource("adminarea/TimetableView.fxml"));
-		Parent root = FXMLLoader.load(getClass().getResource("adminarea/SectionTableView.fxml"));
+	//Parent root = FXMLLoader.load(getClass().getResource("adminarea/SectionTableView.fxml"));
 
 		
 		

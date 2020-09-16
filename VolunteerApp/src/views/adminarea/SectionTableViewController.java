@@ -47,7 +47,7 @@ public class SectionTableViewController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+
 		/* Configures the table columns.
 		 * The factories tell the table where it can get the information from. */
 		sect_nameTableColumn.setCellValueFactory(new PropertyValueFactory<Section, String>("sect_name"));
@@ -68,7 +68,7 @@ public class SectionTableViewController implements Initializable {
 			System.out.println(l.getClassName()+"/"+l.getMethodName()+":"+l.getLineNumber());
 		}
 	}
-	
+
 	/**
 	 * This method will load/get/retrieve the sections from the database and load them into 
 	 * the TableView object.
@@ -149,11 +149,13 @@ public class SectionTableViewController implements Initializable {
 
 	@FXML public void newSectionButtonPushed(ActionEvent event) throws IOException {
 		SceneChanger sc = new SceneChanger();
-		sc.changeScenes(event, "adminarea/NewSectionView.fxml", "Create Section");}
+		sc.changeScenes(event, "adminarea/NewSectionView.fxml", "Create Section");
+	}
 
 	@FXML public void editSectionButtonPushed(ActionEvent event)  throws IOException {
 		SceneChanger sc = new SceneChanger();
-		sc.changeScenes(event, "adminarea/NewSectionView.fxml", "Edit Section");}
+		sc.changeScenes(event, "adminarea/NewSectionView.fxml", "Edit Section");
+	}
 
 	@FXML public void mainMenuButtonPushed(ActionEvent event) throws IOException {
 		SceneChanger sc = new SceneChanger();

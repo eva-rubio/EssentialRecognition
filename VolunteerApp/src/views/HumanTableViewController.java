@@ -62,13 +62,11 @@ public class HumanTableViewController implements Initializable {
 
 	@FXML private Button editHumanButton;
 
-	@FXML private Button logHoursButton;
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		//disable the edit button until a human has been selected from the table.
 		editHumanButton.setDisable(true);
-		logHoursButton.setDisable(true);
 
 
 		/*
@@ -226,7 +224,6 @@ public class HumanTableViewController implements Initializable {
 
 		editHumanButton.setDisable(false);
 
-		logHoursButton.setDisable(false);
 	}
 
 	/**
@@ -256,8 +253,8 @@ public class HumanTableViewController implements Initializable {
      */
     public void monthlyHoursButtonPushed(ActionEvent event) throws IOException {
     	
-        SceneChanger sc = new SceneChanger();
-        sc.changeScenes(event, "MonthlyHoursView.fxml", "View Hours");
+    	SceneChanger sc = new SceneChanger();
+		sc.changeScenes(event, "adminarea/AdminView.fxml", "Admin Main Menu");
     }
     /**
 	 * Logs the current user out of the application and returns them to the LoginView.

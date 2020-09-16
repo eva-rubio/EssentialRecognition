@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.Initializable;
+import models.Address;
 import models.Catalog;
 import models.Human;
 import javafx.beans.value.ChangeListener;
@@ -79,8 +80,8 @@ public class NewEditCourseViewController implements Initializable, ControllerCla
 			catalog.insertCatalogIntoDB();
 
 			// if NO error occurred  ->  Change the Scene to the TableView. 
-			//SceneChanger sc = new SceneChanger();
-			//sc.changeScenes(event, "CatalogListView.fxml", "Course Catalog");
+			SceneChanger sc = new SceneChanger();
+			sc.changeScenes(event, "CatalogListView.fxml", "Course Catalog");
 
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
@@ -144,6 +145,7 @@ public class NewEditCourseViewController implements Initializable, ControllerCla
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 
+		
 		//These items are for configuring the RadioButtons
 
 		creditHoursToggleGroup = new ToggleGroup();
@@ -168,6 +170,13 @@ public class NewEditCourseViewController implements Initializable, ControllerCla
 		// TODO Auto-generated method stub
 
 		human = null;
+	}
+
+
+	@Override
+	public void preloadData(Address address) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

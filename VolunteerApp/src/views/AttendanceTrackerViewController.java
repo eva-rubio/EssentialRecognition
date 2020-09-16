@@ -51,7 +51,7 @@ import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 
 /** 
- * We need to pre-load part of this scene. Specifically: the section name and faculty teaching it.
+ * TODO: We need to pre-load part of this scene. Specifically: the section name and faculty teaching it.
  * @author Eva Rubio
  *
  */

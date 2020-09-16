@@ -35,12 +35,11 @@
               <items>
                 <Button mnemonicParsing="false" onAction="#newHumanButtonPushed" prefWidth="135.0" text="Add New to College" />
                   <Button fx:id="editHumanButton" mnemonicParsing="false" onAction="#editButtonPushed" prefWidth="135.0" text="Edit Entry" />
-                  <Button fx:id="logHoursButton" mnemonicParsing="false" onAction="#logHoursButtonPushed" prefWidth="135.0" text="Log Hours" />
               </items>
             </ToolBar>
             <HBox prefHeight="64.0" prefWidth="760.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#monthlyHoursButtonPushed" prefWidth="135.0" text="View Hours Report" />
+                  <Button mnemonicParsing="false" onAction="#monthlyHoursButtonPushed" prefWidth="135.0" text="Main Menu" />
                </children>
             </HBox>
             <HBox alignment="BOTTOM_RIGHT" prefHeight="63.0" prefWidth="760.0">
