@@ -161,9 +161,7 @@ public class ScheduleTableViewController implements Initializable {
 	}
 
 	@FXML public void logoutButttonPushed(ActionEvent event) throws IOException {
-
 		SceneChanger.setLoggedInUser(null);
-
 		SceneChanger sc = new SceneChanger();
 		sc.changeScenes(event, "LoginView.fxml", "Login");	
 	}

@@ -111,10 +111,10 @@ public class Schedule {
 		}
 	}
 	/**
-	 * Updates the Catalog in our database.
+	 * Updates the Schedule in our database.
 	 * @throws SQLException 
 	 */
-	public void updateCatalogInDB() throws SQLException {
+	public void updateScheduleInDB() throws SQLException {
 
 
 		Connection conn = null;

@@ -74,7 +74,9 @@ public class Main extends Application {
 		
 		//Parent root = FXMLLoader.load(getClass().getResource("adminarea/NewSectionView.fxml"));
 		//Parent root = FXMLLoader.load(getClass().getResource("adminarea/ScheduleTableView.fxml"));
-		Parent root = FXMLLoader.load(getClass().getResource("adminarea/TimetableView.fxml"));
+		//Parent root = FXMLLoader.load(getClass().getResource("adminarea/TimetableView.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("adminarea/SectionTableView.fxml"));
+
 		
 		
 		//Parent root = FXMLLoader.load(getClass().getResource("AttendanceTrackerView.fxml"));

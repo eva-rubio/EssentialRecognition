@@ -45,7 +45,7 @@ public class AdminViewController implements Initializable {
 
 	@FXML public void sectionListButtonPushed(ActionEvent event) throws IOException {
 		SceneChanger sc = new SceneChanger();
-		sc.changeScenes(event, "CatalogListView.fxml", "Course Catalog");
+		sc.changeScenes(event, "adminarea/SectionTableView.fxml", "Sections List");
 	}
 
 	@FXML public void addressListButtonPushed(ActionEvent event) throws IOException {
