@@ -3,7 +3,7 @@
  */
 package views;
 
-import java.io.File;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
-
 import javafx.fxml.Initializable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,7 +30,7 @@ import models.Human;
  * @author Eva Rubio
  *
  */
-public class AddressTableViewController implements Initializable, ControllerClass {
+public class AddressTableViewController implements Initializable {
 
 	@FXML private TextField streetTextField;
 	@FXML private TextField cityTextField;
@@ -42,6 +41,7 @@ public class AddressTableViewController implements Initializable, ControllerClas
 	@FXML private Button saveButton;
 	// need to use the wrapper class Integer
 	@FXML private TableView<Address> addressTable;
+	
 	@FXML private TableColumn<Address, Integer> addressIDColumn;
 	@FXML private TableColumn<Address, String> streetColumn;
 	@FXML private TableColumn<Address, String> cityColumn;
@@ -49,9 +49,18 @@ public class AddressTableViewController implements Initializable, ControllerClas
 	@FXML private TableColumn<Address, String> zipColumn;
 	@FXML private TableColumn<Address, String> countryColumn;
 	@FXML private TableColumn<Address, Boolean> onCampusColumn;
+	@FXML Button clearButton;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		saveButton.setDisable(true);
+		streetTextField.setDisable(true);
+		cityTextField.setDisable(true);
+		stateTextField.setDisable(true);
+		zipTextField.setDisable(true);
+		countryTextField.setDisable(true);
+		onCampusCheckBox.setDisable(true);
+		
 		/*
 		 * Configures the table columns.
 		 * The factories tell the table where it can get the information from. 
@@ -87,7 +96,7 @@ public class AddressTableViewController implements Initializable, ControllerClas
 		// we create an Address (observable)list, but it is empty rn, 
 		// thus, we need to connect it to the database to populate it.
 		 // List whose contents will be displayed in the table:
-		ObservableList<Address> addresslist = FXCollections.observableArrayList();
+		ObservableList<Address> theaddresslist = FXCollections.observableArrayList();
 
 		Connection conn = null;
 		Statement statement = null;
@@ -98,20 +107,22 @@ public class AddressTableViewController implements Initializable, ControllerClas
 
 			// (1) Establish a connection to our database.
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/volunteer?serverTimezone=UTC", "root", "Sudafrica1$");
-			//System.out.println("loadAllHumans() - Connection established successfully!");
+			System.out.println("loadAllAddresses() - Connection established successfully!");
 
 			// (2)  Create a Statement object.
 			statement = conn.createStatement();
 
-			// (3)  Create the SQL query to execute. - Returns the complete list of human records.
+			// (3)  Create the SQL query to execute. - Returns the complete list of address records.
 			resultSet = statement.executeQuery("SELECT * FROM addresslist");
 
 			/*
-			 * (4)  Create human objects from EACH record.
+			 * (4)  Create address objects from EACH record.
 			 * 			Loop over the list of records obtained, 
 			 * 				and, for each item/record we create a new Address object. 
 			 * */
-// public Address(String street, String city, String state, String zipCode, String country, boolean onCampusHousing) 
+			// public Address(String street, String city, String state, String zipCode, String country, boolean onCampusHousing) 
+			System.out.println("SIZE IS: "+resultSet.getFetchSize());
+			
 			while (resultSet.next()) {
 				Address newAddress = new Address(resultSet.getString("street"),
 						resultSet.getString("city"),
@@ -119,28 +130,35 @@ public class AddressTableViewController implements Initializable, ControllerClas
 						resultSet.getString("zipCode"),
 						resultSet.getString("country"),
 						resultSet.getBoolean("onCampusHousing"));
-				// As we do NOT have the humanID associated to each record:
+				// As we do NOT have the addressID associated to each record:
 				newAddress.setAddressID(resultSet.getInt("addressID"));
 
-				// Add the newly created Human object into our (Human) ObservableList.
-				addresslist.add(newAddress);
+				// Add the newly created Addrsess object into our (Address) ObservableList.
+				theaddresslist.add(newAddress);
 			}
 
 			/*
 			 * Once our list has been fully populated, we add it to our TableView.
-			 * 	humanTable.getItems() - Gets all the existing items that are in our table.
-			 * 			Initially, the humanTable is EMPTY, thus, it first returns an Empty ObservableList.
-			 * 	humanTable.getItems().addAll(addresslist) - Adds to this list all of our human records.
+			 * 	addressTable.getItems() - Gets all the existing items that are in our table.
+			 * 			Initially, the addressTable is EMPTY, thus, it first returns an Empty ObservableList.
+			 * 	addressTable.getItems().addAll(addresslist) - Adds to this list all of our address records.
 			 * 			 
 			 * */
-			addressTable.getItems().addAll(addresslist);
+			addressTable.getItems().addAll(theaddresslist);
 
 		} catch (Exception e) {
 
 			System.err.println(e.getMessage());
 			System.out.println(e);
+			System.out.println(e.getCause());
 			StackTraceElement l = new Exception().getStackTrace()[0];
+			StackTraceElement ll = new Exception().getStackTrace()[1];
+			StackTraceElement a = new Exception().getStackTrace()[2];
+
+			e.printStackTrace();
 			System.out.println(l.getClassName()+"/"+l.getMethodName()+":"+l.getLineNumber());
+			System.out.println(ll.getClassName()+"/"+ll.getMethodName()+":"+ll.getLineNumber());
+			System.out.println(a.getClassName()+"/"+a.getMethodName()+":"+a.getLineNumber());
 		}
 
 		/*
@@ -159,11 +177,42 @@ public class AddressTableViewController implements Initializable, ControllerClas
 			}
 		}
 	}
-	
-	@Override
-	public void preloadData(Human human) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * If a human record has been selected in the table, enable the edit button.
+	 */
+	public void addressSelected() {
+
+		saveButton.setDisable(false);
+
 	}
 
+	/**
+	 * If the edit button is pushed, pass the selected Human and all its info to the NewUserView. 
+	 * Then, pre-load the Scene with the data passed.
+	 */
+	public void saveAddressButtonPushed(ActionEvent event) throws IOException {
+
+		SceneChanger sc = new SceneChanger();
+
+		//get the human object that has been selected from the table. 
+		Address address = this.addressTable.getSelectionModel().getSelectedItem();
+
+		// the Controller class to pass in
+		NewUserViewController nuvc = new NewUserViewController();
+
+
+		sc.changeScenes(event, "NewUserView.fxml", "Edit Person Details", address, nuvc );
+
+	}
+	/**
+	 * This method will change back to the TableView of humans WITHOUT adding a user. 
+	 * 
+	 * ALL data in the form will be LOST.
+	 */
+	public void cancelButtonPushed(ActionEvent event) throws IOException {
+
+		SceneChanger sc = new SceneChanger();
+		
+		sc.changeScenes(event,"HumanTableView.fxml", "All Humans"); 
+	}
 }

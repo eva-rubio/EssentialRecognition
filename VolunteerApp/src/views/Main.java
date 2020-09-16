@@ -73,7 +73,14 @@ public class Main extends Application {
 		///VolunteerApp/src/views/adminarea/NewSectionView.fxml
 		
 		//Parent root = FXMLLoader.load(getClass().getResource("adminarea/NewSectionView.fxml"));
-		Parent root = FXMLLoader.load(getClass().getResource("AttendanceTrackerView.fxml"));
+		//Parent root = FXMLLoader.load(getClass().getResource("adminarea/ScheduleTableView.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("adminarea/TimetableView.fxml"));
+		
+		
+		//Parent root = FXMLLoader.load(getClass().getResource("AttendanceTrackerView.fxml"));
+		//Parent root = FXMLLoader.load(getClass().getResource("AddressTableView.fxml"));  
+		
+
 
 		Scene scene = new Scene(root);
 

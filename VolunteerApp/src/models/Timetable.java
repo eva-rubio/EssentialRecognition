@@ -8,42 +8,46 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.time.LocalDate;
 
 /**
  * @author Eva Rubio
- *
- */
-
-
-public class Schedule {
-	
-	
-	/**	
-  `scheduleID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ `timetableID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `weekday` INT NOT NULL,
   `startTime` TIME NOT NULL,
   `endTime` TIME NOT NULL,
-  `dayLetter`
-  
-  */
-	
-	private int scheduleID;
+  `sectionID` INT NOT NULL,
+  `roomID` INT NOT NULL,
+  `semesterID` INT
+ */
+public class Timetable {
+	private int timetableID;
+	private int weekday;
 	private Time startTime; 
-	private Time endTime; 
-	private String dayLetter;
+	private Time endTime;
+	private int sectionID;
+	private int roomID;
+	private int semesterID;
 	
-	public Schedule(Time startTime, Time endTime, String dayLetter) {
+	public Timetable(int weekday, Time startTime, Time endTime, int sectionID, int roomID, int semesterID) {
+		setWeekday(weekday);
 		setStartTime(startTime);
 		setEndTime(endTime);
-		setDayLetter(dayLetter);
+		setSectionID(sectionID);
+		setRoomID(roomID);
+		setSemesterID(semesterID);
+		
 	}
-
-	
-	public int getScheduleID() {
-		return scheduleID;
+	public int getTimetableID() {
+		return timetableID;
 	}
-	public void setScheduleID(int scheduleID) {
-		this.scheduleID = scheduleID;
+	public void setTimetableID(int timetableID) {
+		this.timetableID = timetableID;
+	}
+	public int getWeekday() {
+		return weekday;
+	}
+	public void setWeekday(int weekday) {
+		this.weekday = weekday;
 	}
 	public Time getStartTime() {
 		return startTime;
@@ -57,17 +61,28 @@ public class Schedule {
 	public void setEndTime(Time endTime) {
 		this.endTime = endTime;
 	}
-	public String getDayLetter() {
-		return dayLetter;
+	public int getSectionID() {
+		return sectionID;
 	}
-	public void setDayLetter(String dayLetter) {
-		this.dayLetter = dayLetter;
+	public void setSectionID(int sectionID) {
+		this.sectionID = sectionID;
 	}
-	
+	public int getRoomID() {
+		return roomID;
+	}
+	public void setRoomID(int roomID) {
+		this.roomID = roomID;
+	}
+	public int getSemesterID() {
+		return semesterID;
+	}
+	public void setSemesterID(int semesterID) {
+		this.semesterID = semesterID;
+	}
 	/**
-	 * Creates/inserts the instance of the Schedule into the correct db.
+	 * Creates/inserts the instance of the Timetable into the correct db.
 	 * */
-	public void insertScheduleIntoDB() throws SQLException{
+	public void insertTimetableIntoDB() throws SQLException{
 
 		Connection conn = null;
 		PreparedStatement preparedStatement = null;
@@ -76,19 +91,23 @@ public class Schedule {
 		try {
 			// (1) Connect to the database. (our connection)
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/volunteer?serverTimezone=UTC", "root", "Sudafrica1$");
-			System.out.println("Connection to the schedule established successfully!");
+			System.out.println("Connection to the Timetable established successfully!");
 
 			// (2) Create a String that holds the query with ? as user inputs.
-			String sql = "INSERT INTO schedule (startTime, endTime, dayLetter)"
-					+ "VALUES (?, ?, ? )";
+			//Timetable(int weekday, Time startTime, Time endTime, int sectionID, int roomID, int semesterID)
+			String sql = "INSERT INTO timetable (weekday, startTime, endTime, sectionID, roomID, semesterID)"
+					+ "VALUES (?, ?, ?, ?, ?, ? )";
 
 			// (3) Prepare the query (by sanitizing the inputs.)
 			preparedStatement = conn.prepareStatement(sql);
 			
 			//4. Bind the values to the parameters
-			preparedStatement.setTime(1, startTime);
-			preparedStatement.setTime(2, endTime);
-			preparedStatement.setString(3, dayLetter);
+			preparedStatement.setInt(1, weekday);
+			preparedStatement.setTime(2, startTime);
+			preparedStatement.setTime(3, endTime);
+			preparedStatement.setInt(4, sectionID);
+			preparedStatement.setInt(5, roomID);
+			preparedStatement.setInt(6, semesterID);
 
 			preparedStatement.executeUpdate();
 
@@ -111,10 +130,10 @@ public class Schedule {
 		}
 	}
 	/**
-	 * Updates the Catalog in our database.
+	 * Updates the Timetable in our database.
 	 * @throws SQLException 
 	 */
-	public void updateCatalogInDB() throws SQLException {
+	public void updateTimetableInDB() throws SQLException {
 
 
 		Connection conn = null;
@@ -125,23 +144,25 @@ public class Schedule {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/volunteer?serverTimezone=UTC", "root", "Sudafrica1$");
 
 			//2.  create a String that holds our SQL update command with ? for user inputs
-			//schedule (scheduleID, startTime, endTime, dayLetter)
-			String sql = "UPDATE schedule SET startTime = ?, endTime = ?, dayLetter = ? "
-					+ "WHERE scheduleID = ?";
+			//timetable (weekday, startTime, endTime, sectionID, roomID, semesterID)
+			String sql = "UPDATE timetable SET weekday = ?, startTime = ?, endTime = ?, sectionID = ? roomID = ?, semesterID = ? "
+					+ "WHERE timetableID = ?";
 
 			//3. prepare the query against SQL injection
 			preparedStatement = conn.prepareStatement(sql);
 
 		
 			//4. Bind the values to the parameters
-			preparedStatement.setTime(1, startTime);
-			preparedStatement.setTime(2, endTime);
-			preparedStatement.setString(3, dayLetter);
+			preparedStatement.setInt(1, weekday);
+			preparedStatement.setTime(2, startTime);
+			preparedStatement.setTime(3, endTime);
+			preparedStatement.setInt(4, sectionID);
+			preparedStatement.setInt(5, roomID);
+			preparedStatement.setInt(6, semesterID);
 
 			//5. run the command on the SQL server
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
-
 
 
 		} catch (SQLException e) {
@@ -150,7 +171,6 @@ public class Schedule {
 			StackTraceElement l = new Exception().getStackTrace()[0];
 			System.out.println(l.getClassName()+"/"+l.getMethodName()+":"+l.getLineNumber());
 		}
-
 		finally {
 			if (conn != null) {
 				conn.close();
@@ -159,7 +179,6 @@ public class Schedule {
 				preparedStatement.close();
 			}
 		}
-
 	}
 
 }

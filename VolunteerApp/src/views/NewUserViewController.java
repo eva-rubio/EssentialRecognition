@@ -56,6 +56,7 @@ public class NewUserViewController implements Initializable, ControllerClass {
 	private boolean imageFileChanged;
 
 	private Human human;
+	private Address address;
 
 	// for the passwords
 	@FXML private PasswordField pwField;
@@ -463,10 +464,22 @@ public class NewUserViewController implements Initializable, ControllerClass {
 
 	}
 
-	@FXML public void createAddressButtonPushed(ActionEvent event) {}
+	@FXML public void createAddressButtonPushed(ActionEvent event) {
+		SceneChanger sc = new SceneChanger();
+
+		try {
+			sc.changeScenes(event, "AddressTableView.fxml", "Create New Address" );
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+			System.out.println(e);
+			StackTraceElement l = new Exception().getStackTrace()[0];
+			System.out.println(l.getClassName()+"/"+l.getMethodName()+":"+l.getLineNumber());
+		}
+	}
 
 	@FXML public void selectAddressButtonPushed(ActionEvent event) {
 		SceneChanger sc = new SceneChanger();
+		NewUserViewController nuvc = new NewUserViewController();
 
 		//get the human object that has been selected from the table. 
 		//Address address = this.addressTable.getSelectionModel().getSelectedItem();
@@ -477,13 +490,22 @@ public class NewUserViewController implements Initializable, ControllerClass {
 		//System.out.printf("The image file is in %s%n", human.getImageFile().getCanonicalPath());
 
 		try {
-			sc.changeScenes(event, "AddressTableView.fxml", "Select Address" );
+			//sc.changeScenes(event, "AddressTableView.fxml", "Select Address" );
+			sc.changeScenes(event, "AddressTableView.fxml", "Select Address", address, human, nuvc );
+
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 			System.out.println(e);
 			StackTraceElement l = new Exception().getStackTrace()[0];
 			System.out.println(l.getClassName()+"/"+l.getMethodName()+":"+l.getLineNumber());
 		}
+	}
+
+	@Override
+	public void preloadData(Address address) {
+		this.address = address;
+		this.addressIDTextField.setText(address.getAddressIDString());
+		
 	}
 
 

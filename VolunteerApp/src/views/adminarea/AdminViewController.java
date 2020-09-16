@@ -48,11 +48,14 @@ public class AdminViewController implements Initializable {
 		sc.changeScenes(event, "CatalogListView.fxml", "Course Catalog");
 	}
 
-	@FXML public void addressListButtonPushed(ActionEvent event) {}
+	@FXML public void addressListButtonPushed(ActionEvent event) throws IOException {
+		SceneChanger sc = new SceneChanger();
+		sc.changeScenes(event, "AddressTableView.fxml", "Course Catalog");
+	}
 
 	@FXML public void scheduleListButtonPushed(ActionEvent event) throws IOException {
 		SceneChanger sc = new SceneChanger();
-		sc.changeScenes(event, "CatalogListView.fxml", "Course Catalog");
+		sc.changeScenes(event, "adminarea/ScheduleTableView.fxml", "Schedule Listing.");
 	}
 
 	@FXML public void attendanceListButtonPushed(ActionEvent event) throws IOException {

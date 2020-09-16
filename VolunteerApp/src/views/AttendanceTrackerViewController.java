@@ -36,6 +36,7 @@ import javafx.event.Event;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -44,32 +45,27 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.scene.control.Label;
+import javafx.event.ActionEvent;
 
-/**
+/** 
+ * We need to pre-load part of this scene. Specifically: the section name and faculty teaching it.
  * @author Eva Rubio
  *
  */
 public class AttendanceTrackerViewController implements Initializable {
 	@FXML private ImageView currentFrame;
-	@FXML
-	private Button cameraButton;
-	@FXML
-	private Button takePicButton;
-	@FXML
-	private ImageView picToShow;
-
+	@FXML private Button cameraButton;
+	@FXML private Button takePicButton;
+	@FXML private ImageView picToShow;
 	//@FXML private CheckBox haarClassifier;
 	//@FXML private CheckBox lbpClassifier;
-
-	@FXML
-	private CheckBox grayScale;
-
-	@FXML
-	private CheckBox logoCheckBox;
-
-	@FXML
-	private Button savePicButton;
-	// the logo to be loaded
+	@FXML private CheckBox grayScale;
+	@FXML private CheckBox logoCheckBox;
+	@FXML private Button savePicButton;
+	// the school logo to be loaded
 	private Mat logo;
 
 	//public static String basePath=System.getProperty("user.dir");
@@ -106,12 +102,11 @@ public class AttendanceTrackerViewController implements Initializable {
 	private boolean cameraActive;
 	private boolean takePicClicked = false;
 	private boolean isFaceDetected;
+	@FXML Label dateLabel;
+	@FXML Button uploadImageButton;
+	private File imageFile;
+	private boolean imageFileChanged;
 
-	/**
-	 * Face Cascade Classifier.
-	 * 
-	 */
-	//private CascadeClassifier faceCascade;
 	/**
 	 * Sets the Minimum size/(area¿?) of the Face to be DETECTED. --> It is needed
 	 * in the actual DETECTION Function. Later on, we set the minimum size to be the
@@ -121,12 +116,10 @@ public class AttendanceTrackerViewController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		/*
-		 * Instantiating the VideoCapture Object to Capture a Webcam Stream. (using its
-		 * constructor). The Camera index is set to 1, representing the built-in camera.
-		 */
+		/* Instantiating the VideoCapture Object to Capture a Webcam Stream. 
+		 * (using its constructor). 
+		 * The Camera index is set to 1, representing the built-in camera.  */
 		this.capture = new VideoCapture(1);
-
 
 		// set a fixed width for the frame
 		// currentFrame.setFitWidth(600);
@@ -138,8 +131,7 @@ public class AttendanceTrackerViewController implements Initializable {
 	/**
 	 * The action triggered by pushing the button on the GUI.
 	 */
-	@FXML
-	protected void startCamera() {
+	@FXML protected void startCamera() {
 		// set a fixed width for the frame
 		// this.currentFrame.setFitWidth(600);
 		// preserve image ratio
@@ -302,7 +294,6 @@ public class AttendanceTrackerViewController implements Initializable {
 			 * System.out.println("The image is successfully to Grayscale");
 			 */
 	        
-	        
 
 			try {
 				ImageIO.write(bImage, "png", outputFile);
@@ -354,8 +345,7 @@ public class AttendanceTrackerViewController implements Initializable {
 	 * correctly, that is, the filename has been typed correctly and its format is
 	 * supported.
 	 */
-	@FXML
-	protected void loadLogo() throws Exception {
+	@FXML protected void loadLogo() throws Exception {
 		String logoFileName = "resources/ec-logo-imgs/rsz_endicott-logo.png";
 
 		if (logoCheckBox.isSelected()) {
@@ -682,8 +672,7 @@ public class AttendanceTrackerViewController implements Initializable {
 
 	/**
 	 * Gets the detected face and compares it to the TRAINING DATA SET.
-	 * 
-	 * 
+	 *  
 	 * @param detectedFace	the face that was just detected from the stream.
 	 * 
 	 * */
@@ -709,6 +698,61 @@ public class AttendanceTrackerViewController implements Initializable {
 
 		return new double[] {result, outConf[0]};
 
+	}
+
+	@FXML public void uploadImageButtonPushed(ActionEvent event) {
+		//get the Stage to open a new window/Stage    --> this gives us access to the actual window.
+				Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+				//Instantiate a FileChooser object
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("Open Image");
+
+				/*
+				 * To make sure the user only selects the correct image format we
+				 *  filter to only select be allowed to select .jpg and .png formats*/
+				FileChooser.ExtensionFilter jpgFilter = new FileChooser.ExtensionFilter("image File (*.jpg)", "*.jpg");
+				FileChooser.ExtensionFilter pngFilter = new FileChooser.ExtensionFilter("image File (*.png)", "*.png");
+				// the list is initially empty so we add them all to it. 
+				fileChooser.getExtensionFilters().addAll(jpgFilter, pngFilter);
+
+				//Set to the user's picture directory or user directory if not available
+				String userDirectoryString = System.getProperty("user.home")+"\\Pictures";
+				File userDirectory = new File(userDirectoryString);
+
+				//if you cannot navigate to the pictures directory, go to the user home
+				if (!userDirectory.canRead())
+					userDirectory = new File(System.getProperty("user.home"));
+
+				fileChooser.setInitialDirectory(userDirectory);
+
+				//open the file dialog window - giving the user the ability to select their desired one. 
+				File tmpImageFile = fileChooser.showOpenDialog(stage);
+
+				if (tmpImageFile != null) {
+					imageFile = tmpImageFile;
+
+					//update the ImageView with the new user-selected image
+					if (imageFile.isFile()) {
+
+						try {
+
+							BufferedImage bufferedImage = ImageIO.read(imageFile);
+							Image img = SwingFXUtils.toFXImage(bufferedImage, null);
+							picToShow.setImage(img);
+
+							imageFileChanged = true;
+							this.takePicClicked = true;
+
+						} catch (IOException e) {
+
+							System.err.println(e.getMessage());
+							System.out.println(e);
+							StackTraceElement l = new Exception().getStackTrace()[0];
+							System.out.println(l.getClassName()+"/"+l.getMethodName()+":"+l.getLineNumber());
+						}
+					}
+				}
 	}
 
 }

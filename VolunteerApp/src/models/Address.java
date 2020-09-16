@@ -103,16 +103,20 @@ public class Address {
 	 * 	 * */
 	public void setZipCode(String zipCode) {
 
-		if(zipCode.matches("[0-9]{5}([0-9]{4})?")) {
-			if((country.equalsIgnoreCase("US") || country.equalsIgnoreCase("USA") ) && zipCodeUSvalid(zipCode)) {
-				this.zipCode = zipCode;
-			} else {
-				throw new IllegalArgumentException("US Zip codes must be between 5 and 9 digits long, inclusive.");
-			}
-		} else {
-			throw new IllegalArgumentException("Zip codes must be either the five-digit and/or nine-digit (called ZIP + 4) formats.");
-		}
+		this.zipCode = zipCode;
+		/*
+		 * if(zipCode.matches("[0-9]{5}([0-9]{4})?")) {
+		 * if((country.equalsIgnoreCase("US") || country.equalsIgnoreCase("USA") ) &&
+		 * zipCodeUSvalid(zipCode)) { this.zipCode = zipCode; } else { throw new
+		 * IllegalArgumentException("US Zip codes must be between 5 and 9 digits long, inclusive."
+		 * ); } } else { throw new
+		 * IllegalArgumentException("Zip codes must be either the five-digit and/or nine-digit (called ZIP + 4) formats."
+		 * ); }
+		 */
 
+	}
+	public String getAddressIDString() {
+		return Integer.toString(addressID);
 	}
 
 	public String getCountry() {
@@ -184,7 +188,7 @@ public class Address {
 		try {
 			// (1) Connect to the database. (our connection)
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/volunteer?serverTimezone=UTC", "root", "Sudafrica1$");
-			System.out.println("Connection established successfully!");
+			System.out.println("Connection to ADDRESSLIST established successfully!");
 
 			// (2) Create a String that holds the query with ? as user inputs.
 			String sql = "INSERT INTO addresslist (street, city, state, zipCode, country, onCampusHousing)"
@@ -203,13 +207,8 @@ public class Address {
 			preparedStatement.setString(5, country);
 			preparedStatement.setBoolean(6, onCampusHousing);
 
-
 			preparedStatement.executeUpdate();
 
-
-
-			/*INSERT INTO addresslist(firstName, lastName, phoneNumber, birthday, imageFile) VALUES
-('Fred', 'Flinstone', '651-555-1234', '2002-01-02', 'some file');*/
 
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
@@ -271,6 +270,7 @@ public class Address {
 
 			//5. run the command on the SQL server
 			preparedStatement.executeUpdate();
+			// do NOT delete eva!!
 			preparedStatement.close();
 
 

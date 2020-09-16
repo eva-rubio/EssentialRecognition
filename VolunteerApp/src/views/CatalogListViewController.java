@@ -63,6 +63,8 @@ public class CatalogListViewController implements Initializable{
 
 	@FXML private TableColumn<Catalog, Integer> schoolIDTableColumn;
 
+	@FXML Button mainMenuButton;
+
 
 
 	/**
@@ -193,24 +195,7 @@ public class CatalogListViewController implements Initializable{
 		sc.changeScenes(event, "NewEditCourseView.fxml", "New Catalog ");
 	}
 
-	/**
-	 * Create a file selection dialog
-	 *
-	 * @param title window title
-	 */
-	public static FileChooser getFileChooser(String title) {
-		FileChooser fileChooser = new FileChooser();
-		// We are starting to search from the current folder:
-		fileChooser.setInitialDirectory(new File("."));
-		// Set filters to find files:
-		fileChooser.getExtensionFilters().add(
-				new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml"));
-		fileChooser.getExtensionFilters().add(
-				new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
-		// Specify the title of the window:
-		fileChooser.setTitle(title);
-		return fileChooser;
-	}
+	
 
 	/**
 	 * Dialog box for an arbitrary message
@@ -231,6 +216,14 @@ public void logoutButttonPushed(ActionEvent event) throws IOException {
 		SceneChanger sc = new SceneChanger();
 		sc.changeScenes(event, "LoginView.fxml", "Login");	
 	}
+
+
+
+
+@FXML public void mainMenuButtonPushed(ActionEvent event) throws IOException {
+	SceneChanger sc = new SceneChanger();
+	sc.changeScenes(event, "AdminView.fxml", "Admin Main Menu");	
+}
 
 
 }

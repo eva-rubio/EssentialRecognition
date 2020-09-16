@@ -10,29 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-/**
- * 
-
-		Adding courses
-
-		Registering teacher
-
-		Section registration
-
-		Class registration
-
-		User registration
-
-		View all Information
-
-		Catalog planning
-
-		Time calculation
-
-
- * @author Eva Rubio
- *
- */
 public class Catalog {
 
 	private int catalogID;
@@ -183,6 +160,8 @@ public class Catalog {
 
 			//5. run the command on the SQL server
 			preparedStatement.executeUpdate();
+			preparedStatement.close();
+
 
 
 		} catch (SQLException e) {

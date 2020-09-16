@@ -11,32 +11,36 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.CatalogListViewController">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.adminarea.TimetableViewController">
    <children>
       <VBox alignment="CENTER" layoutX="293.0" layoutY="88.0" prefHeight="688.0" prefWidth="1093.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="Course Catalog List">
+            <Label text="College Wide TimeTable">
                <font>
                   <Font name="System Bold Italic" size="24.0" />
                </font>
             </Label>
-            <TableView fx:id="catalogListTable" prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="timetableTable" prefHeight="200.0" prefWidth="200.0">
                <columns>
-                  <TableColumn fx:id="c_codeTableColumn" prefWidth="72.00002861022949" text="Code" />
-                  <TableColumn fx:id="c_titleTableColumn" prefWidth="136.66663360595703" text="Title" />
-                  <TableColumn fx:id="creditHoursTableColumn" prefWidth="54.00004577636719" text="Credits" />
-                  <TableColumn fx:id="coreReqTableColumn" prefWidth="75.33331298828125" text="Core Req?" />
-                  <TableColumn fx:id="c_descriptionTableColumn" prefWidth="135.3333740234375" text="Description" />
-                  <TableColumn fx:id="schoolIDTableColumn" prefWidth="84.00003051757812" text="School ID" />
+                  <TableColumn fx:id="timetableIDTableColumn" prefWidth="59.99999809265137" text="#" />
+                  <TableColumn fx:id="weekdayTableColumn" prefWidth="100.00003814697266" text="Weekday" />
+                  <TableColumn fx:id="startTimeTableColumn" prefWidth="136.66663360595703" text="Start Time" />
+                  <TableColumn fx:id="endTimeTableColumn" prefWidth="54.00004577636719" text="End Time" />
+                  <TableColumn fx:id="sectionIDTableColumn" prefWidth="75.0" text="Section ID" />
+                  <TableColumn fx:id="roomIDTableColumn" prefWidth="75.0" text="Room ID" />
+                  <TableColumn fx:id="semesterIDTableColumn" prefWidth="75.0" text="Semester ID" />
                </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
             </TableView>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
                <items>
-                  <Button fx:id="newCatalogButton" mnemonicParsing="false" onAction="#newCatalogButtonPushed" prefWidth="135.0" text="New Catalog">
+                  <Button fx:id="newTimetableButton" mnemonicParsing="false" onAction="#newTimetableButtonPushed" prefWidth="135.0" text="New Timetable">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <Button fx:id="editCatalogButton" mnemonicParsing="false" onAction="#editCatalogButtonPushed" prefWidth="135.0" text="Edit Catalog" />
+                  <Button fx:id="editTimetableButton" mnemonicParsing="false" onAction="#editTimetableButtonPushed" prefWidth="135.0" text="Edit Timetable" />
                </items>
             </ToolBar>
             <HBox prefHeight="64.0" prefWidth="760.0">
