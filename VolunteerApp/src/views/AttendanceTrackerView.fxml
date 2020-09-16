@@ -94,7 +94,7 @@
                                                             <Font name="Consolas" size="14.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label fx:id="dateLabel" text="Label">
+                                                      <Label fx:id="dateLabel" text="2020-09-12">
                                                          <font>
                                                             <Font name="Consolas" size="14.0" />
                                                          </font>
@@ -120,7 +120,7 @@
                                                 </HBox>
                                                 <VBox prefHeight="35.0" prefWidth="492.0">
                                                    <children>
-                                                      <CheckBox fx:id="grayScale" mnemonicParsing="false" text="grayScale" />
+                                                      <CheckBox fx:id="grayScale" mnemonicParsing="false" selected="true" text="grayScale" />
                                                       <CheckBox fx:id="logoCheckBox" mnemonicParsing="false" onAction="#loadLogo" text="logoCheckBox" />
                                                    </children></VBox>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="471.0" spacing="20.0">
@@ -156,7 +156,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Analytics &amp; Settings">
+          <Tab disable="true" text="Analytics &amp; Settings">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0">
                      <children>
