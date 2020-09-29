@@ -4,7 +4,10 @@
  Facial Recognition Software for tracking students' attendance in the classroom. 
  School Database Management System created from scrat in MySQL for the purposes of the project. 
  
- KeyWords:
+ 
+ 
+ 
+ ## KeyWords:
  - OpenCV
  - JavaFX
  - SceneBuilder
