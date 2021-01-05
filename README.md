@@ -2,7 +2,7 @@
  Repository for Eva Rubio's Senior Thesis.
  
  Facial Recognition Software for tracking students' attendance in the classroom.     
- School Database Management System created from scrat in MySQL for the purposes of the project. 
+ School Database Management System created from scratch in MySQL for the purposes of the project. 
        
             
                 
